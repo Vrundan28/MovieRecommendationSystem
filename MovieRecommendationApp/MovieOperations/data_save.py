@@ -1,0 +1,65 @@
+import pandas as pd
+import sqlite3
+import json
+import time
+
+
+def addEscapeSequences(mystr):
+    with_escape = ""
+    for pos in range(0, len(mystr)):
+        if(mystr[pos] == "'"):
+            with_escape = with_escape+"\\"
+        with_escape += mystr[pos]
+    return with_escape
+
+
+dataset = pd.read_csv('..\Movie_Dataset.csv')
+df = pd.DataFrame(dataset)
+conn = sqlite3.connect('..\db.sqlite3')
+cursor = conn.cursor()
+start = time.time_ns()
+for i, j in df.iterrows():
+    # print(i,j['production_companies'])
+    production_companies_json = json.loads(j['production_companies'])
+    production_companies_string = ""
+    for k in range(0, len(production_companies_json)):
+        production_companies_string += production_companies_json[k]['name']+" "
+    # print(production_companies_string)
+    print(i)
+    # insert_query = "insert into MovieOperations_movie(movieTitle,movieDescription,movieKeywords,movieCast,movieDirector,movieProduction,movieRuntime,movieGenre,movieTagline,movieRating) VALUES ('" + addEscapeSequences(j['original_title'])+"','"+addEscapeSequences(j['overview'])+"','"+addEscapeSequences(j['keywords'])+"','"+addEscapeSequences(j['cast'])+"','"+addEscapeSequences(j['director'])+"','" + addEscapeSequences(production_companies_string)+"','"+addEscapeSequences(str(j['runtime']))+"','"+addEscapeSequences(j['genres'])+"','"+addEscapeSequences(j['tagline'])+"','"+"10"+"')"
+    # insert_query = "insert into MovieOperations_movie(movieTitle,movieDescription,movieKeywords,movieCast,movieDirector,movieProduction,movieRuntime,movieGenre,movieTagline,movieRating) VALUES ('" + (j['original_title'])+"','"+(j['overview'])+"','"+(j['keywords'])+"','"+(j['cast'])+"','"+(j['director'])+"','" + (production_companies_string)+"','"+(str(j['runtime']))+"','"+(j['genres'])+"','"+(j['tagline'])+"','"+"10"+"')"
+    # print(insert_query)
+    # print()
+    # insert_query1=""
+    # for l in range(0,len(insert_query)):
+    #     if(insert_query[l]=='"' or insert_query[l]=="'"):
+    #         insert_query1=insert_query1+'\\'
+    #     insert_query1+=insert_query[l]
+    # print(insert_query1)
+
+    # insert_query = "insert into MovieOperations_movie(movieTitle,movieDescription,movieKeywords,movieCast,movieDirector,movieProduction,movieRuntime,movieGenre,movieTagline,movieRating) VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')"
+
+    # (j['original_title'], j['overview'], j['keywords'], j['cast'], j['director'], production_companies_string, str(j['runtime']), j['genres'], j['tagline'], "10")
+    # if(i == 36 or i == 37 or i == 58):
+    #     continue
+    # conn.execute(insert_query)
+    # cursor.execute(insert_query, (j['original_title'], j['overview'], j['keywords'], j['cast'],j['director'], production_companies_string, str(j['runtime']), j['genres'], j['tagline'], "10"))
+
+    insert_query="""INSERT INTO MovieOperations_movie(movieTitle,movieDescription,movieKeywords,movieCast,movieDirector,movieProduction,movieRuntime,movieGenre,movieTagline,movieRating) VALUES (?,?,?,?,?,?,?,?,?,?)"""
+    movieTitle=j['original_title']
+    movieDescription=j['overview']
+    movieKeywords=j['keywords']
+    movieCast=j['cast']
+    movieDirector=j['director']
+    movieProduction=production_companies_string
+    movieRuntime=str(j['runtime'])
+    movieGenre=j['genres']
+    movieTagline=j['tagline']
+    movieRating="10"
+    data_tuple=(movieTitle,movieDescription,movieKeywords,movieCast,movieDirector,movieProduction,movieRuntime,movieGenre,movieTagline,movieRating)
+    cursor.execute(insert_query,data_tuple)
+
+conn.commit()
+end = time.time_ns()
+
+print(end-start)
