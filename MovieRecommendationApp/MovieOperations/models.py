@@ -19,3 +19,4 @@ class Movie(models.Model):
         MaxValueValidator(10),
         MinValueValidator(1)
     ])
+    movieUrl = models.CharField(max_length=1024)
