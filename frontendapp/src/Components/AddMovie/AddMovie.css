@@ -1,0 +1,18 @@
+.add_movie_container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.add_movie_form_field {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3vh;
+}
+.add_movie_input {
+  margin-left: 5vw;
+}
