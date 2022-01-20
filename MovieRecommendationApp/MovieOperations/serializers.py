@@ -15,4 +15,5 @@ class MovieSerializer(serializers.ModelSerializer):
                   'movieGenre',
                   'movieTagline',
                   'movieRating',
-                  'movieUrl' )
+                  'movieUrl',
+                  'moviePoster' )

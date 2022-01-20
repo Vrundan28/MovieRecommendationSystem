@@ -20,3 +20,4 @@ class Movie(models.Model):
         MinValueValidator(1)
     ])
     movieUrl = models.CharField(max_length=1024)
+    moviePoster = models.CharField(max_length=1024,null=True)
