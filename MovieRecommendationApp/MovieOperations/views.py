@@ -14,7 +14,8 @@ from django.conf import settings
 @csrf_exempt
 def UploadMovie(request):
     if request.method == "POST":
-        movieVideo = request.FILES["MovieVideo"]
+        movieVideo = request.FILES["movieVideo"]
+        moviePoster = request.FILES["moviePoster"]
         movieTitle = request.POST["movieTitle"]
         movieDescription = request.POST["movieDescription"]
         movieKeyword = request.POST["movieKeyword"]
@@ -22,14 +23,16 @@ def UploadMovie(request):
         movieDirector = request.POST["movieDirector"]
         movieRuntime = request.POST["movieRuntime"]
         movieGenre = request.POST["movieGenre"]
-        movieRating = request.POST["movieRating"]
+        movieRating = 10
         movieProduction = request.POST["movieProduction"]
         rand = random.getrandbits(128)
         movieUrl = str(rand) + "_" + movieTitle
+        posterUrl = str(rand) + "_" + movieTitle + "Poster"
         movieTagline = request.POST["movieTagline"]
 
-        movie = Movie(movieTitle=movieTitle,movieDescription=movieDescription,movieProduction=movieProduction,movieKeywords=movieKeyword,movieCast=movieCast,movieDirector=movieDirector,movieRuntime=movieRuntime,movieGenre=movieGenre,movieRating=movieRating,movieUrl=movieUrl,movieTagline=movieTagline)
+        movie = Movie(movieTitle=movieTitle,movieDescription=movieDescription,movieProduction=movieProduction,movieKeywords=movieKeyword,movieCast=movieCast,movieDirector=movieDirector,movieRuntime=movieRuntime,movieGenre=movieGenre,movieRating=movieRating,movieUrl=movieUrl,movieTagline=movieTagline,moviePoster=posterUrl)
         res = default_storage.save(movieUrl,movieVideo)
+        res = default_storage.save(posterUrl,moviePoster)
         movie.save()
         movies_serializer = MovieSerializer(movie,many=False)
         return JsonResponse(movies_serializer.data,safe=False)
@@ -55,6 +58,12 @@ def DeleteMovie(request,id):
             print("The file does not exist")
         movie.delete()
         return JsonResponse("Delete successful",safe = False)
+
+@csrf_exempt
+def GetMovie(request,id):
+    if request.method == "GET":
+        movie = Movie.objects.filter(movieId = id)
+        return JsonResponse(movie.values()[0],safe=False)
 
 
 
