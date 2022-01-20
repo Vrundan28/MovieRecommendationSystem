@@ -1,0 +1,27 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.view_movie_container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 5vw;
+}
+
+.view_movie_poster{
+    height: 35vh;
+    width: 30vw;
+    cursor: pointer;
+}
+
+.view_movie_play{
+    margin: 1vw;
+    padding: 1vw;
+    background-color: aqua;
+    cursor: pointer;
+}
