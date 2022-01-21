@@ -4,7 +4,8 @@ import {Switch } from 'react-router-dom';
 import AddMovie from './Components/AddMovie/AddMovie';
 import ViewMovie from './Components/ViewMovie/ViewMovie';
 import PlayMovie from './Components/PlayMovie/PlayMovie';
-
+import Login from './Components/Login/Login';
+import Signup from './Components/Signup/Signup';
 
 const App = () => {
   
@@ -12,6 +13,8 @@ const App = () => {
   <>
     <BrowserRouter> 
         <Switch>
+            <Route exact path='/' component={Login} />
+            <Route path='/Signup' component={Signup} />
             <Route path='/AddMovie' component={AddMovie} />
             <Route path='/ViewMovie/:movieId' component={ViewMovie} />
             <Route path='/PlayMovie/:movieId' component={PlayMovie} />
