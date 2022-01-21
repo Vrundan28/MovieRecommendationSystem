@@ -1,0 +1,20 @@
+.Signup_container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 10%;
+}
+.Signup_form_field {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 3vh;
+}
+.Signup_input {
+    margin-left: 5vw;
+}
+  

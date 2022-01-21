@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useLocation } from 'react-router';
 
 const PlayMovie = () => {
-  const [movie, setMovie] = useState(null);
+  // const [movie, setMovie] = useState(null);
   const [movieVideo, setMovieVideo] = useState("");
   const location = useLocation();
   const movieId = location.pathname.split('/')[2];
@@ -12,7 +12,7 @@ const PlayMovie = () => {
     const fetchMovie = async () => {
       try {
         const currMovie = await axios.get(`http://127.0.0.1:8000/movieOperations/getMovie/${movieId}/`);
-        setMovie(currMovie.data);
+        // setMovie(currMovie.data);
         const movieVideo1 = "http://127.0.0.1:8000/media/" + currMovie.data.movieUrl;
         setMovieVideo(movieVideo1);
         console.log(currMovie.data);

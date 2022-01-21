@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import axios from 'axios';
 import './ViewMovie.css';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 
 
@@ -31,7 +31,23 @@ const ViewMovie = () => {
     const handleClick = () => {
         window.location.replace(`/PlayMovie/${movieId}`);
     }
-  return (
+
+    const handleLike = async() => {
+        try{
+            const Senddata = {
+                "userId":3,
+                "movieId":movieId
+            }
+            const likeMovie = await axios.post(`http://127.0.0.1:8000/movieOperations/likeMovie/`,Senddata);
+            console.log(likeMovie.data)
+        }
+        catch(err)
+        {
+
+        }
+    }
+
+    return (
     <>
         <div className='view_movie_container'>
             <h2>{movie.movieTitle}</h2><br /><br />
@@ -41,7 +57,8 @@ const ViewMovie = () => {
             <h5>Director : {movie.movieDirector}</h5><br />
             <h5>Cast : {movie.movieCast}</h5><br />
             <h6>Production : {movie.movieProduction}</h6><br /><br />
-            <button onClick={handleClick}>PLay Video</button> 
+            <button onClick={handleClick}>Play Video</button> 
+            <button onClick={handleLike}>Like Movie</button>
         </div>
     </>
     );
