@@ -1,3 +1,4 @@
+from json import JSONEncoder
 from rest_framework import serializers
 from MovieOperations.models import Movie
 
@@ -17,3 +18,7 @@ class MovieSerializer(serializers.ModelSerializer):
                   'movieRating',
                   'movieUrl',
                   'moviePoster' )
+
+class MovieEncoder(JSONEncoder):
+    def default(self, o):
+        return o.__dict__
