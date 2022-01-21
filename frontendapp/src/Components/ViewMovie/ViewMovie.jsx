@@ -10,12 +10,13 @@ const ViewMovie = () => {
     const movieId = location.pathname.split('/')[2]
     const [movie, setmovie] = useState(null);
     const [moviePoster, setmoviePoster] = useState("");
-
+    console.log(movieId)
      useEffect(() => {
         const fetchMovie = async () => {
             try {
-                const currMovie = await axios.get(`http://127.0.0.1:8000/movieOperations/getMovie/${movieId}/`);
+                const currMovie = await axios.get(`http://127.0.0.1:8000/movieOperations/getMovie/${movieId}/`);                
                 setmovie(currMovie.data);
+                console.log(curMovie.data)
                 const moviePoster1 = "http://127.0.0.1:8000/media/"+currMovie.data.moviePoster;
                 setmoviePoster(moviePoster1);
                 // console.log(currMovie.data);

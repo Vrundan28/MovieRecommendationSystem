@@ -32,33 +32,33 @@ const Signup = () => {
 
     return (
         <>
-            <div class="Signup_container">
-                <h1 class="Signup_title">Sign up</h1>
+            <div className="Signup_container">
+                <h1 className="Signup_title">Sign up</h1>
                 <form className="SignupMovie" enctype="multipart/form-data" onSubmit={(e) => handleSignup(e)}>
-                    <div class="Signup_form">
-                        <div class="Signup_form_field">
+                    <div className="Signup_form">
+                        <div className="Signup_form_field">
                             <div>FirstName : </div>
-                            <input class="Signup_input" value={firstName} onChange={(e) => setFirstName(e.target.value)} type="text" name="FirstName" />
+                            <input className="Signup_input" value={firstName} onChange={(e) => setFirstName(e.target.value)} type="text" name="FirstName" />
                         </div>
-                        <div class="Signup_form_field">
+                        <div className="Signup_form_field">
                             <div>LastName : </div>
-                            <input class="Signup_input" value={lastName} onChange={(e) => setLastName(e.target.value)} type="text" name="LastName" />
+                            <input className="Signup_input" value={lastName} onChange={(e) => setLastName(e.target.value)} type="text" name="LastName" />
                         </div>
-                        <div class="Signup_form_field">
+                        <div className="Signup_form_field">
                             <div>Username : </div>
-                            <input class="Signup_input" value={email} onChange={(e) => setEmail(e.target.value)} type="text" name="UserName" />
+                            <input className="Signup_input" value={email} onChange={(e) => setEmail(e.target.value)} type="text" name="UserName" />
                         </div>
-                        <div class="Signup_form_field">
+                        <div className="Signup_form_field">
                             <div>Username : </div>
-                            <input class="Signup_input" value={userName} onChange={(e) => setUserName(e.target.value)} type="text" name="UserName" />
+                            <input className="Signup_input" value={userName} onChange={(e) => setUserName(e.target.value)} type="text" name="UserName" />
                         </div>
-                        <div class="Signup_form_field">
+                        <div className="Signup_form_field">
                             <div>Password : </div>
-                            <input class="Signup_input" value={password} onChange={(e) => setPassword(e.target.value)} type="text" name="password" />
+                            <input className="Signup_input" value={password} onChange={(e) => setPassword(e.target.value)} type="text" name="password" />
                         </div>
-                        <div class="Signup_form_field">
+                        <div className="Signup_form_field">
                             <div>Confirm Password : </div>
-                            <input class="Signup_input" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} type="text" name="Confirm Password" />
+                            <input className="Signup_input" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} type="text" name="Confirm Password" />
                         </div>
                         <button name="Signup_btn" type='submit'>
                             Signup

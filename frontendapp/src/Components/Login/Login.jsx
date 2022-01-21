@@ -13,8 +13,9 @@ const Login = () => {
         data.append('password',password)
         
         try{
-            // const data1 = await axios.post(``,data)
-            // console.log(data1.data)
+            const data1 = await axios.post(`http://127.0.0.1:8000/accounts/login/`,data)
+            if(data1.data=="Login Success")
+                window.location.href="/AddMovie"
         }
         catch(err)
         {
@@ -22,19 +23,20 @@ const Login = () => {
         }
     }
 
+
     return (
         <>
-            <div class="Login_container">
-                <h1 class="Login_title">Log in</h1>
-                <form className="LoginMovie" enctype="multipart/form-data" onSubmit={(e) => handleLogin(e)}>
-                    <div class="Login_form">
-                        <div class="Login_form_field">
+            <div className="Login_container">
+                <h1 className="Login_title">Log in</h1>
+                <form className="LoginMovie" encType="multipart/form-data" onSubmit={(e) => handleLogin(e)}>
+                    <div className="Login_form">
+                        <div className="Login_form_field">
                             <div>Username : </div>
-                            <input class="Login_input" value={userName} onChange={(e) => setUserName(e.target.value)} type="text" name="UserName" />
+                            <input className="Login_input" value={userName} onChange={(e) => setUserName(e.target.value)} type="text" name="UserName" />
                         </div>
-                        <div class="Login_form_field">
+                        <div className="Login_form_field">
                             <div>Password : </div>
-                            <input class="Login_input" value={password} onChange={(e) => setPassword(e.target.value)} type="text" name="password" />
+                            <input className="Login_input" value={password} onChange={(e) => setPassword(e.target.value)} type="text" name="password" />
                         </div>
                     </div>
                     <button name="Login_btn" type='submit'>

@@ -32,6 +32,8 @@ const AddMovie = () => {
     try{
         const data1 = await axios.post(`http://127.0.0.1:8000/movieOperations/uploadMovie/`,data)
         console.log(data1.data)
+        let movieId=data1.data.movieId
+        window.location.href="/ViewMovie/"+movieId
     }
     catch(err)
     {
