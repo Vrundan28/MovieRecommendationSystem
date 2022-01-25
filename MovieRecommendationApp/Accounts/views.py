@@ -11,9 +11,39 @@ from django.contrib import auth
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from Accounts.models import CustomUser
-
+import pandas as pd 
+import numpy as np
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+from django.conf import settings 
 
 # Create your views here.
+dataset = pd.read_csv(str(settings.BASE_DIR)+'\\tmp_dataset.csv',encoding="utf-8")
+# print(dataset)
+def get_title_from_index(index):
+    return dataset[dataset.movieId == index]["movieTitle"].values[0]
+
+def get_index_from_title(title):
+    return dataset[dataset.movieTitle == title]["movieId"].values[0]
+
+def getRecommendations(movieName):
+
+    features = ['movieKeywords','movieCast','movieGenre','movieDirector']
+    for feature in features:
+        dataset[feature] = dataset[feature].fillna('')
+
+    def combine_feature(row):
+        return row['movieKeywords']+" "+row['movieCast']+" "+row['movieGenre']+" "+row['movieDirector']
+
+    dataset["combined_features"] = dataset.apply(combine_feature,axis=1)
+    cv = CountVectorizer()
+    count_matrix = cv.fit_transform(dataset["combined_features"])
+    similarity = cosine_similarity(count_matrix)    
+    movie_index = get_index_from_title(movieName)
+    similar_movies = list(enumerate(similarity[movie_index]))
+    sorted_similarMovies = sorted(similar_movies,key = lambda x:x[1], reverse=True)
+    return sorted_similarMovies
+
 
 
 @csrf_exempt
@@ -43,7 +73,6 @@ def signup(request):
             user = User.objects.create_user(
                 username=username, password=password, first_name=firstname, last_name=lastname, email=email)
             customUser = CustomUser(user_id=user.id)
-            # print(user)
             user.save()
             customUser.save()
             return JsonResponse("Signup Success", safe=False)
@@ -53,8 +82,14 @@ def signup(request):
 def get_liked_movies_of_user(request, id):
     userId = id
     liked_movies = Likes.objects.filter(user_id=userId)
+    x = len(liked_movies)
+    # print(x)
     obj = liked_movies[0].movie
     dict_obj = model_to_dict(obj)
     data = json.dumps(dict_obj)
-    print(data)
+    movies = getRecommendations(liked_movies[0].movie.movieTitle)
+    print(movies)
+    for movie in movies:
+        print(get_title_from_index(movie[0]))
+        break
     return JsonResponse(data, safe=False)
