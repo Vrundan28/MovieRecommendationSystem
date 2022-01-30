@@ -16,7 +16,7 @@ const ViewMovie = () => {
             try {
                 const currMovie = await axios.get(`http://127.0.0.1:8000/movieOperations/getMovie/${movieId}/`);                
                 setmovie(currMovie.data);
-                console.log(curMovie.data)
+                console.log(currMovie.data)
                 const moviePoster1 = "http://127.0.0.1:8000/media/"+currMovie.data.moviePoster;
                 setmoviePoster(moviePoster1);
                 // console.log(currMovie.data);
