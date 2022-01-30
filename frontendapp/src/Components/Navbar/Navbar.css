@@ -1,0 +1,94 @@
+.navbar_container{
+    background: transparent;
+    z-index: 99;
+    position: relative;
+}
+
+.navbar_title{
+    color: red;
+    font-size: 50px;
+    position: absolute;
+    top: 1.5vh;
+    left: 5%;
+}
+
+.login_heading{
+    color: white;
+    font-size: 60px;
+    text-align: center;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+.Login_container {
+    /* height: 100%;
+    width: 100%; */
+    /* display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; */
+    /* margin-top: 10%; */
+    position :absolute;
+    top: 20vh;
+    left: 30vw;
+  }
+
+.Login_input {
+    padding: 1.2vw;
+    width: 30vw;
+}
+
+.Login_input_container{
+    position: absolute;
+    top: 47vh;
+    right: 68vh;
+}
+
+.Login_input_container1{
+    position: absolute;
+    top: 56vh;
+    right: 68vh;
+}
+
+.login_btn{
+    position: absolute;
+    top: 68vh;
+    left: 45%;
+    width: 8%;
+    padding: .7vw;
+    background-color: red;
+    border: none;
+    border-radius: .8vh;
+    color: white;
+    font-size: large;
+}
+
+.login_text{
+    color: white;
+    font-size: 25px;
+    text-align: center;
+}  
+
+.navbar_right{
+    position:absolute;
+    top: 4vh;
+    left: 90%;
+}
+
+.navbar_signup{
+    background-color: rgb(255, 0, 0);
+    position: absolute;
+    color: white;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    padding-top: .5vw;
+    padding-bottom: .5vw;
+    padding-left: .9vw;
+    padding-right: .9vw;
+    border-radius: .2vw;
+}
+
+.buttonClass{
+    font-family: 'Source Sans Pro', sans-serif;
+    letter-spacing: .3px;
+}

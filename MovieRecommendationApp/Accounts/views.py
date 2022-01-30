@@ -91,5 +91,4 @@ def get_liked_movies_of_user(request, id):
     print(movies)
     for movie in movies:
         print(get_title_from_index(movie[0]))
-        break
     return JsonResponse(data, safe=False)
