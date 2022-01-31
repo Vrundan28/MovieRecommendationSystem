@@ -1,12 +1,4 @@
-.Login_container {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin-top: 10%;
-  }
+
   .Login_form_field {
     height: 100%;
     width: 100%;
@@ -14,7 +6,15 @@
     justify-content: space-between;
     margin-top: 3vh;
   }
-  .Login_input {
-    margin-left: 5vw;
-  }
-  
+ 
+ 
+ .login_background_image{
+   filter: brightness(40%);
+   background-image: url("../../../public/images/Project2.png");
+   background-position: center;
+   background-repeat: no-repeat;
+   background-size: cover;
+   width: 100vw;
+   position: absolute;
+   height: 100vh;
+ } 

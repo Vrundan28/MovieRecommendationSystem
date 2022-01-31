@@ -112,3 +112,10 @@ def get_liked_movies_of_user(request, id):
         all_recommendation.append(jsdata)
     data2 = json.dumps(all_recommendation)
     return JsonResponse(data2, safe=False)
+
+    movies = getRecommendations(liked_movies[0].movie.movieTitle)
+    print(movies)
+    for movie in movies:
+        print(get_title_from_index(movie[0]))
+    return JsonResponse(data, safe=False)
+
