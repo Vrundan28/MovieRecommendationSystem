@@ -1,20 +1,84 @@
-.Signup_container {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin-top: 10%;
-}
-.Signup_form_field {
+
+.signup_form_field {
     height: 100%;
     width: 100%;
     display: flex;
     justify-content: space-between;
     margin-top: 3vh;
+    margin-bottom: 3%;
+    opacity: 1;
 }
-.Signup_input {
+.signup_input {
     margin-left: 5vw;
 }
-  
+
+.signup_heading{
+    position: absolute;
+    top: 6%;
+    right: 60%;
+    color: white;
+    opacity: 1;
+}
+
+.signup_Movie{
+    position: absolute;
+    top: 12%;
+    right: 12%;
+    opacity: 1;
+    /* color: white; */
+}
+
+.signup_btn{
+    position: absolute;
+    top: 105%;
+    left: 45%;
+    width: 25%;
+    padding: .7vw;
+    background-color: red;
+    border: none;
+    border-radius: .8vh;
+    color: white;
+    font-size: large;
+    cursor: pointer;
+    opacity: 1;
+}
+
+
+.signup_input {
+    padding: .7vw;
+    width: 17vw;
+    background-color: rgba(70, 70, 70, 1);
+    border: none;
+    color: white;
+    opacity: 1;
+    border-radius: .25vw;
+}
+
+.signup_footer{
+    position: absolute;
+    top: 120%;
+    right: 13%;
+    color: white;
+    opacity: 1;
+}
+
+.signup_container{
+    position: absolute;
+    top: 10%;
+    right: 38%;
+    background-color: black;
+    opacity: 0.65;
+    height: 75vh;
+    width: 25vw;
+}
+ 
+.signup_background_image{
+    filter: brightness(40%);
+    background-image: url("../../../public/images/Project2.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100vw;
+    position: absolute;
+    height: 100vh;
+} 

@@ -1,18 +1,77 @@
-.add_movie_container {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
 .add_movie_form_field {
   height: 100%;
   width: 100%;
   display: flex;
   justify-content: space-between;
   margin-top: 3vh;
+  margin-bottom: 3%;
+  opacity: 1;
 }
 .add_movie_input {
   margin-left: 5vw;
+}
+
+.addmovie_container{
+  position: absolute;
+  top: 13%;
+  right: 35%;
+  background-color: black;
+  opacity: 0.65;
+  height: 75vh;
+  width:30vw;
+  overflow: scroll;
+}
+
+.createMovie{
+  position: absolute;
+  top: 12%;
+  right: 20%;
+  opacity: 1;
+  /* color: white; */
+}
+
+.add_movie_input {
+  padding: .7vw;
+  width: 17vw;
+  background-color: rgba(70, 70, 70, 1);
+  border: none;
+  color: white;
+  opacity: 1;
+  border-radius: .25vw;
+}
+
+.addmovie_heading{
+  position: absolute;
+  top: 6%;
+  right: 50%;
+  color: white;
+  opacity: 1;
+}
+
+
+.add_movie_btn{
+  position: absolute;
+  top: 105%;
+  left: 45%;
+  width: 25%;
+  padding: .7vw;
+  background-color: red;
+  border: none;
+  border-radius: .8vh;
+  color: white;
+  font-size: large;
+  cursor: pointer;
+  opacity: 1;
+}
+
+
+.addmovie_background_image{
+  filter: brightness(40%);
+  background-image: url("../../../public/images/Project2.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100vw;
+  position: absolute;
+  height: 100vh;
 }

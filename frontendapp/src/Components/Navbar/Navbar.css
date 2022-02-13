@@ -60,6 +60,7 @@
     border-radius: .8vh;
     color: white;
     font-size: large;
+    cursor: pointer;
 }
 
 .login_text{
