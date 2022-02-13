@@ -45,7 +45,56 @@ const AddMovie = () => {
 
   return(    
   <>
-    <div class="add_movie_container">
+    <div className='container'>
+        <img className='addmovie_background_image' src='"../../../public/images/Project2.png"' />
+    </div>
+    <div className='navbar_left'>
+        <h3 className='navbar_title'>MOVIE</h3>
+    </div>
+    <div className='addmovie_container'>
+      <h1 className='addmovie_heading'>AddMovie</h1>
+      <form className="createMovie" enctype="multipart/form-data" onSubmit={(e) => handleMovieUpload(e)}>
+        <div class="add_movie_form_field">
+          <input class="add_movie_input" value={movie_title} onChange={(e)=>set_movie_title(e.target.value)} type="text" name="movie_title" placeholder='Movie Title' />
+        </div>
+        <div class="add_movie_form_field">
+          <textarea type="text" value={movie_description} onChange={(e)=>set_movie_description(e.target.value)} class="add_movie_input" name="movie_description" placeholder='Movie Description' />
+        </div>
+        <div class="add_movie_form_field">
+          <input type="text" value={movie_keywords} onChange={(e)=>set_movie_keywords(e.target.value)} class="add_movie_input" name="movie_keywords" placeholder='Movie Keyword' />
+        </div>
+        <div class="add_movie_form_field">
+          <input type="text"value={movie_cast} onChange={(e)=>set_movie_cast(e.target.value)} class="add_movie_input" name="movie_cast" placeholder='Movie Cast'/>
+        </div>
+        <div class="add_movie_form_field">
+          <input type="text" value={movie_director} onChange={(e)=>set_movie_director(e.target.value)} class="add_movie_input" name="movie_director" placeholder='Movie Director'/>
+        </div>
+        <div class="add_movie_form_field">
+          <input class="add_movie_input" value={movie_production} onChange={(e)=>set_movie_production(e.target.value)} type="text" name="movie_production" placeholder='Movie Production'/>
+        </div>
+        <div class="add_movie_form_field">
+          <input type="number" value={movie_runtime} onChange={(e)=>set_movie_runtime(e.target.value)} class="add_movie_input" name="movie_runtime" min="0" placeholder='120'/>
+        </div>
+        {/* Thinking that in future we will give checkboxes for genre */}
+        <div class="add_movie_form_field">
+          <input class="add_movie_input" value={movie_genre} onChange={(e)=>set_movie_genre(e.target.value)} type="text" name="movie_genre" placeholder='Movie Genre'/>
+        </div>
+        <div class="add_movie_form_field">
+          <input type="text" class="add_movie_input" value={movie_tagline} onChange={(e)=>set_movie_tagline(e.target.value)} name="movie_tagline" placeholder='Movie Tagline'/>
+        </div>
+        <div class="add_movie_form_field">
+          <input type="file" class="add_movie_input"  onChange={(e)=>set_movie_poster(e.target.files[0])} name="movie_poster" />
+        </div>
+        <div class="add_movie_form_field">
+          <input class="add_movie_input" onChange={(e)=>set_movie_video(e.target.files[0])} type="file" name="movie_video"/>
+        </div>
+        <button className="add_movie_btn" type='submit'>
+          AddMovie
+        </button>
+      </form>
+    </div>
+  
+    {/* <div class="add_movie_container">
         <h1 class="add_movie_title">Add Movie</h1>
         <form className="createMovie" enctype="multipart/form-data" onSubmit={(e) => handleMovieUpload(e)}>
           <div class="add_movie_form">
@@ -77,7 +126,7 @@ const AddMovie = () => {
                 <div>Runtime(in mins) :</div>
                 <input type="number" value={movie_runtime} onChange={(e)=>set_movie_runtime(e.target.value)} class="add_movie_input" name="movie_runtime" min="0" placeholder='120'/>
               </div>
-              {/* Thinking that in future we will give checkboxes for genre */}
+              Thinking that in future we will give checkboxes for genre
               <div class="add_movie_form_field">
                 <div>Genres :</div>
                   <input class="add_movie_input" value={movie_genre} onChange={(e)=>set_movie_genre(e.target.value)} type="text" name="movie_genre"/>
@@ -99,7 +148,7 @@ const AddMovie = () => {
               </button>
           </div>
         </form>
-    </div>
+    </div> */}
     
   </>);
 };

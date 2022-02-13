@@ -32,7 +32,7 @@ const Navbar = () => {
         <>
             <div className='navbar_container'>
                 <div className='navbar_left'>
-                    <h3 className='navbar_title'>NETFLIX</h3>
+                    <h3 className='navbar_title'>MOVIE</h3>
                 </div>
                 <div className='navbar_right'>
                     <button className='navbar_signup' onClick={handleClick}><h4 className='buttonClass'>SignIn</h4></button>
@@ -47,7 +47,7 @@ const Navbar = () => {
                 <div className='Login_input_container1'>
                     <input className="Login_input" value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' type="text" name="password" />
                 </div>
-                <button className='login_btn'> Log in </button>
+                <button className='login_btn' onClick={handleLogin}> Log in </button>
             </div>
         </>
         );
