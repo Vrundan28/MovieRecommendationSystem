@@ -9,8 +9,9 @@ const ViewMovie = () => {
     const location = useLocation()
     const movieId = location.pathname.split('/')[2]
     const [movie, setmovie] = useState(null);
-    const [moviePoster, setmoviePoster] = useState("");
-    console.log(movieId)
+    const [moviePoster, setmoviePoster] = useState("https://wallpapercave.com/wp/wp1816342.jpg");
+    // moviePoster = "https://wallpapercave.com/wp/wp1816342"
+    // console.log(movieId)
      useEffect(() => {
         const fetchMovie = async () => {
             try {
@@ -49,8 +50,26 @@ const ViewMovie = () => {
     }
 
     return (
-    <>
-        <div className='view_movie_container'>
+    <header className="Movie_background" style={{
+        backgroundSize:"cover",
+        backgroundImage:`url(${moviePoster})`,
+        backgroundPosition:"center center"
+    }}>
+
+
+        <div className="Movie_Details">
+            <h1 className="Movie_Title">
+                {movie.movieTitle}
+            </h1>
+            <div className="buttons">
+                <button onClick={handleClick} className="Function_Buttons"><i class="fa-solid fa-play"></i> Play</button>
+                <button onClick={handleLike} className="Function_Buttons"><i class="fa-solid fa-heart"></i> Like</button>
+            </div>
+            <h1 className="Movie_Description">
+                {movie.movieDescription}
+            </h1>
+        </div>
+        {/* <div className='view_movie_container'>
             <h2>{movie.movieTitle}</h2><br /><br />
             <img src={moviePoster} className='view_movie_poster' alt='movie_poster'></img><br /><br />
             <h4>{movie.movieDescription}</h4><br /><br />
@@ -60,8 +79,8 @@ const ViewMovie = () => {
             <h6>Production : {movie.movieProduction}</h6><br /><br />
             <button onClick={handleClick}>Play Video</button> 
             <button onClick={handleLike}>Like Movie</button>
-        </div>
-    </>
+        </div> */}
+    </header>
     );
 };
 
