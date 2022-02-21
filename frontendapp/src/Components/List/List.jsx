@@ -9,6 +9,10 @@ const List = () => {
   const listReference = useRef()
   const [isMoved,setIsMoved]=useState(false)
   const [slideNumber,setSlideNumber]=useState(0)
+  const [movieList, setMovieList] = useState([4803,4802,4801,4800,4799,4798,4797,4796,4795,4794,4793,4792])
+
+
+  
   const Slide = (direction) =>
   {    
      let distance = listReference.current.getBoundingClientRect().x-50
@@ -36,19 +40,24 @@ const List = () => {
             <div className="wrapper">
             <ArrowBackIosIcon className="arrow backward" style={{display:!isMoved && "none"}} onClick={()=>Slide("backward")}/>
                 <div ref={listReference} className="container">
+                    {
+                        movieList.map((m) => (
+                            <ListItem movieId={m} />
+                        ))
+                    }
+                    {/* <ListItem movieId={4803}/>
+                    <ListItem movieId={4803}/>
+                    <ListItem movieId={4803}/>
+                    <ListItem movieId={4803}/>
+                    <ListItem movieId={4803}/>
+                    <ListItem movieId={4803}/>
+                    <ListItem movieId={4803}/>
+                    <ListItem movieId={4803}/>
                     <ListItem/>
                     <ListItem/>
                     <ListItem/>
                     <ListItem/>
-                    <ListItem/>
-                    <ListItem/>
-                    <ListItem/>
-                    <ListItem/>
-                    <ListItem/>
-                    <ListItem/>
-                    <ListItem/>
-                    <ListItem/>
-                    <ListItem/>
+                    <ListItem/> */}
                 </div>
             <ArrowForwardIosIcon className="arrow forward" onClick={()=>Slide("forward")}/>
             </div>

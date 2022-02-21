@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react';
 import axios from 'axios';
 import './ViewMovie.css';
 import { useLocation } from 'react-router-dom';
-
+import List from '../List/List';
 
 
 const ViewMovie = () => {
@@ -12,16 +12,16 @@ const ViewMovie = () => {
     const [moviePoster, setmoviePoster] = useState("https://wallpapercave.com/wp/wp1816342.jpg");
     // moviePoster = "https://wallpapercave.com/wp/wp1816342"
     // console.log(movieId)
-     useEffect(() => {
+    useEffect(() => {
         const fetchMovie = async () => {
             try {
                 const currMovie = await axios.get(`http://127.0.0.1:8000/movieOperations/getMovie/${movieId}/`);                
                 setmovie(currMovie.data);
                 console.log(currMovie.data)
-                const moviePoster1 = "http://127.0.0.1:8000/media/"+currMovie.data.moviePoster;
-                setmoviePoster(moviePoster1);
+                // const moviePoster1 = "http://127.0.0.1:8000/media/"+currMovie.data.moviePoster;
+                // setmoviePoster(currMovie.data.m);
                 // console.log(currMovie.data);
-                console.log(moviePoster1)
+                // console.log(moviePoster1)
             }
             catch (err) {
                 console.log("Not Found");
@@ -50,13 +50,12 @@ const ViewMovie = () => {
     }
 
     return (
-    <header className="Movie_background" style={{
-        backgroundSize:"cover",
-        backgroundImage:`url(${moviePoster})`,
-        backgroundPosition:"center center"
-    }}>
-
-
+    
+        <header className="Movie_background" style={{
+            backgroundSize:"cover",
+            backgroundImage:`url(${moviePoster})`,
+            backgroundPosition:"center center"
+        }}>
         <div className="Movie_Details">
             <h1 className="Movie_Title">
                 {movie.movieTitle}
@@ -69,6 +68,8 @@ const ViewMovie = () => {
                 {movie.movieDescription}
             </h1>
         </div>
+        <List />
+        <List />
         {/* <div className='view_movie_container'>
             <h2>{movie.movieTitle}</h2><br /><br />
             <img src={moviePoster} className='view_movie_poster' alt='movie_poster'></img><br /><br />
