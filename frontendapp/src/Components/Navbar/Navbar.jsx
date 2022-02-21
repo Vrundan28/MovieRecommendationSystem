@@ -20,7 +20,7 @@ const Navbar = () => {
         try{
             const data1 = await axios.post(`http://127.0.0.1:8000/accounts/login/`,data)
             if(data1.data==="Login Success")
-                window.location.href="/AddMovie"
+                window.location.href="/"
         }
         catch(err)
         {

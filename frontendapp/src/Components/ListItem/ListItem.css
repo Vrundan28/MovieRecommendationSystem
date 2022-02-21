@@ -1,9 +1,11 @@
 .listitem {
-  width: 225px;
-  height: 220px;
+  width: 200px;
+  height: 250px;
   background-color: antiquewhite;
   margin-right: 7px;
+  margin-bottom: 3%;
 }
+
 img {
   object-fit: cover;
   height: 100%;

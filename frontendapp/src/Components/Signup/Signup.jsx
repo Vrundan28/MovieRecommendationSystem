@@ -40,7 +40,7 @@ const Signup = () => {
                 <h3 className='navbar_title'>MOVIE</h3>
             </div>
             <div className='signup_container'>
-                <h1 className='signup_heading'>Sign In</h1>
+                <h1 className='signup_heading'>Sign Up</h1>
                 <form className="signup_Movie" enctype="multipart/form-data" onSubmit={(e) => handleSignup(e)}>
                     <div className="signup_form_field">
                         <input className="signup_input" value={firstName} onChange={(e) => setFirstName(e.target.value)} type="text" name="FirstName" placeholder='First Name' />
@@ -63,7 +63,7 @@ const Signup = () => {
                     <button className="signup_btn" >
                         Signup
                     </button>
-                    <h4 className='signup_footer' type='submit'>Already a user ? <Link to='/'> Login here !!! </Link> </h4>
+                    <h4 className='signup_footer' type='submit'>Already a user ? <Link to='/Login'> Login here !!! </Link> </h4>
                 </form>
             </div>
         </>

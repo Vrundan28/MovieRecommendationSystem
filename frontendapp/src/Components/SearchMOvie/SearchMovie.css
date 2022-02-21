@@ -1,0 +1,59 @@
+.searchMovie_input{
+    width: 20vw;
+    padding: .3vw;
+    background-color: #111;
+    border: none;
+    color: white;
+}
+
+.searchMovie_header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1vw;
+    /* right: 50%; */
+}
+
+.icon{
+    font-size: larger;
+    margin-right: 0.5vw;
+    color: white;
+}
+
+.searchMovie_body{
+    color: white;
+    margin-left: 2vw;
+    display: flex;
+    flex-direction: row;
+    /* width: 80%; */
+}
+
+.searchMovie_body_child{
+
+}
+
+.searchMovie_body_left_child{
+    display: grid;
+    grid-template-columns: 13vw 13vw 13vw 13vw 13vw 13vw;
+    padding-bottom: 4%;
+}
+
+.searchMovie_body_left{
+    display: flex;
+    flex: 7;
+    /* overflow: scroll; */
+    /* background-color: aliceblue; */
+    /* color: white; */
+}
+
+.searchMovie_suggestions{
+    margin: 20%;
+}
+
+.searchMovie_body_right{
+    display: flex;
+    flex:1;
+    margin-left: 1vw;
+    /* background-color: aqua; */
+    /* color: white; */
+}

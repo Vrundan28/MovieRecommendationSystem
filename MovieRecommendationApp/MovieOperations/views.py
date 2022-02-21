@@ -10,6 +10,8 @@ import random
 import os
 from django.conf import settings
 from csv import writer
+from black import json
+
 # Create your views here.
 
 
@@ -81,6 +83,17 @@ def GetMovie(request, id):
         movie = Movie.objects.filter(movieId=id)
         return JsonResponse(movie.values()[0], safe=False)
 
+def GetAllMovie(request):
+    if request.method == "GET":
+        movie = Movie.objects.all()
+        # movielist = []
+        # for m in movie:
+        #     movielist.append(m)
+        to_dict_objs = [obj.to_dict()
+                        for obj in movie]
+        jsdata = json.dumps({"AllMovies": to_dict_objs})
+        return JsonResponse(jsdata, safe=False)
+
 
 @csrf_exempt
 def LikeMovie(request):
@@ -116,9 +129,16 @@ def createDataset(request):
         writer_object.writerow(feilds)
         writer_object.writerows(rows)
         csvfile.close()
-
     # print(rows)
-
     return JsonResponse("Dataset Created Successfully", safe=False)
 
+
+# @csrf_exempt
+# def SearchMovie(request):
+#     if request.method == "POST":
+#         searchTerm = request.POST["searchTerm"]
+#         # movie = Movie.objects.filter(name__contains='searchTerm')
+#         print(searchTerm)
+#         return JsonResponse("search Term", safe=False)
+    # return JsonResponse("search Term", safe=False)
 
