@@ -11,6 +11,10 @@ import os
 from django.conf import settings
 from csv import writer
 from black import json
+from datetime import datetime
+import nltk
+import collections
+nltk.download('punkt')
 
 # Create your views here.
 
@@ -40,9 +44,10 @@ def UploadMovie(request):
         # print(movie)
         x = Movie.objects.all()
         x = len(x)
-        tmp_movie = [x,movieTitle,movieDescription,movieKeyword,movieCast,movieDirector,movieProduction,movieRuntime,movieGenre,movieTagline,movieRating]
+        tmp_movie = [x, movieTitle, movieDescription, movieKeyword, movieCast, movieDirector,
+                     movieProduction, movieRuntime, movieGenre, movieTagline, movieRating]
         filename = str(settings.BASE_DIR)+"\\tmp_dataset.csv"
-        with open(filename, 'a') as csvfile: 
+        with open(filename, 'a') as csvfile:
             writer_object = writer(csvfile)
             writer_object.writerow(tmp_movie)
             csvfile.close()
@@ -83,6 +88,7 @@ def GetMovie(request, id):
         movie = Movie.objects.filter(movieId=id)
         return JsonResponse(movie.values()[0], safe=False)
 
+
 def GetAllMovie(request):
     if request.method == "GET":
         movie = Movie.objects.all()
@@ -104,7 +110,7 @@ def LikeMovie(request):
         userId = data["userId"]
         user = CustomUser.objects.get(user_id=userId)
         movie = Movie.objects.get(movieId=movieId)
-        liked_movie = Likes(user=user,movie=movie) 
+        liked_movie = Likes(user=user, movie=movie)
         liked_movie.save()
         return JsonResponse("Liked Successfully", safe=False)
 
@@ -112,19 +118,21 @@ def LikeMovie(request):
 @csrf_exempt
 def createDataset(request):
     movies = Movie.objects.all()
-    feilds = ["movieId","movieTitle","movieDescription","movieKeywords","movieCast","movieDirector","movieProduction","movieRuntime","movieGenre","movieTagline","movieRating"]
-    i=0
+    feilds = ["movieId", "movieTitle", "movieDescription", "movieKeywords", "movieCast",
+              "movieDirector", "movieProduction", "movieRuntime", "movieGenre", "movieTagline", "movieRating"]
+    i = 0
     rows = []
     for movie in movies:
-        if i == 97 :
-            i+=1
+        if i == 97:
+            i += 1
             continue
-        row = [movie.movieId,movie.movieTitle,movie.movieDescription,movie.movieKeywords,movie.movieCast,movie.movieDirector,movie.movieProduction,movie.movieRuntime,movie.movieGenre,movie.movieTagline,movie.movieRating]
+        row = [movie.movieId, movie.movieTitle, movie.movieDescription, movie.movieKeywords, movie.movieCast,
+               movie.movieDirector, movie.movieProduction, movie.movieRuntime, movie.movieGenre, movie.movieTagline, movie.movieRating]
         rows.append(row)
-        i+=1
+        i += 1
 
     filename = str(settings.BASE_DIR)+"\\tmp_dataset.csv"
-    with open(filename, 'w', encoding="utf-8") as csvfile: 
+    with open(filename, 'w', encoding="utf-8") as csvfile:
         writer_object = writer(csvfile)
         writer_object.writerow(feilds)
         writer_object.writerows(rows)
@@ -142,3 +150,25 @@ def createDataset(request):
 #         return JsonResponse("search Term", safe=False)
     # return JsonResponse("search Term", safe=False)
 
+@csrf_exempt
+def get_movies_of_all_genre(request):
+    # Fetch all movies
+    start = datetime.now()
+    all_movies = Movie.objects.all()
+    # print(all_movies)
+    according_to_genre = collections.defaultdict(list)
+    for i in range(0, len(all_movies)):
+        current_movie = all_movies[i]
+        # print(current_movie)
+        # print()
+        genres_in_movie = []    # Storing all genres of current movie in a list
+        if current_movie.movieGenre is not None:
+            genres_in_movie = nltk.word_tokenize(current_movie.movieGenre)
+        for j in range(0, len(genres_in_movie)):
+            according_to_genre[genres_in_movie[j]].append(
+                current_movie.to_dict())
+    # print(according_to_genre)
+    json_Data = json.dumps(according_to_genre)
+    time_elapsed = datetime.now() - start
+    print("Time taken : {}".format(time_elapsed))
+    return JsonResponse(json_Data, safe=False)
