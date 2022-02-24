@@ -155,20 +155,25 @@ def get_movies_of_all_genre(request):
     # Fetch all movies
     start = datetime.now()
     all_movies = Movie.objects.all()
-    # print(all_movies)
+    # print(all_movies.values()[0])
     according_to_genre = collections.defaultdict(list)
     for i in range(0, len(all_movies)):
         current_movie = all_movies[i]
         # print(current_movie)
         # print()
         genres_in_movie = []    # Storing all genres of current movie in a list
+        current_movie_dict = current_movie.to_dict()
+        current_movie_dict["movieId"] = current_movie.movieId
         if current_movie.movieGenre is not None:
             genres_in_movie = nltk.word_tokenize(current_movie.movieGenre)
         for j in range(0, len(genres_in_movie)):
             according_to_genre[genres_in_movie[j]].append(
-                current_movie.to_dict())
+                current_movie_dict)
+        # print(current_movie_dict)
+        
     # print(according_to_genre)
     json_Data = json.dumps(according_to_genre)
     time_elapsed = datetime.now() - start
     print("Time taken : {}".format(time_elapsed))
+    # print(json_Data)
     return JsonResponse(json_Data, safe=False)

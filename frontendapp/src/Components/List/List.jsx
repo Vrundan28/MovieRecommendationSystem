@@ -27,7 +27,7 @@ const List = ({ genre_name, movies }) => {
       listReference.current.style.transform = `translateX(${distance - 232}px)`;
     }
   };
-
+  console.log(movies )
   return (
     <>
       <div className="list">
@@ -54,9 +54,11 @@ const List = ({ genre_name, movies }) => {
             <ListItem />
             <ListItem /> */}
 
-            {movieList.map((m) => (
-              <ListItem movieId={5} />
-            ))}
+            {
+              movieList.map((m) => (
+                <ListItem movieId={m.movieId} moviePoster={m.moviePoster} />
+              )
+            )}
             {/* <ListItem movieId={4803}/>
                     <ListItem movieId={4803}/>
                     <ListItem movieId={4803}/>
