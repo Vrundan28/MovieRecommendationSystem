@@ -20,7 +20,7 @@ class Movie(models.Model):
         MaxValueValidator(10),
         MinValueValidator(1)
     ])
-    movieUrl = models.CharField(max_length=1024)
+    movieUrl = models.CharField(max_length=1024, null=True)
     moviePoster = models.CharField(max_length=1024, null=True)
 
     # def __init__(self,movieId,movieTitle,movieDescription,movieKeywords,movieCast,movieDirector,movieProduction,movieRuntime,movieGenre,movieTagline,movieRating,movieUrl,moviePoster):
