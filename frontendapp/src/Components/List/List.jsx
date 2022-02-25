@@ -31,7 +31,7 @@ const List = ({ genre_name, movies }) => {
   return (
     <>
       <div className="list">
-        <span className="listTitle">Action</span>
+        <span className="listTitle">{genre_name}</span>
         <div className="wrapper">
           <ArrowBackIosIcon
             className="arrow backward"

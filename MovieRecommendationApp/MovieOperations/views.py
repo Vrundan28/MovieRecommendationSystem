@@ -95,9 +95,16 @@ def GetAllMovie(request):
         # movielist = []
         # for m in movie:
         #     movielist.append(m)
-        to_dict_objs = [obj.to_dict()
-                        for obj in movie]
-        jsdata = json.dumps({"AllMovies": to_dict_objs})
+        to_dict_objs = collections.defaultdict(list)
+        for i in range(0, len(movie)):
+            current_movie = movie[i]
+            # print(current_movie)
+            # print()
+            current_movie_dict = current_movie.to_dict()
+            current_movie_dict["movieId"] = current_movie.movieId
+            to_dict_objs["AllMovies"].append(current_movie_dict)
+
+        jsdata = json.dumps(to_dict_objs)
         return JsonResponse(jsdata, safe=False)
 
 
@@ -167,12 +174,17 @@ def get_movies_of_all_genre(request):
         if current_movie.movieGenre is not None:
             genres_in_movie = nltk.word_tokenize(current_movie.movieGenre)
         for j in range(0, len(genres_in_movie)):
-            according_to_genre[genres_in_movie[j]].append(
-                current_movie_dict)
-        # print(current_movie_dict)
-        
-    # print(according_to_genre)
-    json_Data = json.dumps(according_to_genre)
+            according_to_genre[genres_in_movie[j]].append(current_movie_dict)
+        # print(current_movie_dict) 
+    according_to_genre_modify = collections.defaultdict(list)
+    for i in according_to_genre:
+        randArr = random.sample(range(0,len(according_to_genre[i])), min(25,len(according_to_genre[i])))
+        print(randArr)
+        for j in range(len(randArr)):
+            # print(according_to_genre[i][j])
+            according_to_genre_modify[i].append(according_to_genre[i][randArr[j]])
+    # print(according_to_genre_modify)
+    json_Data = json.dumps(according_to_genre_modify)
     time_elapsed = datetime.now() - start
     print("Time taken : {}".format(time_elapsed))
     # print(json_Data)

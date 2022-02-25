@@ -35,7 +35,7 @@ const Navbar = () => {
                     <h3 className='navbar_title'>MOVIE</h3>
                 </div>
                 <div className='navbar_right'>
-                    <button className='navbar_signup' onClick={handleClick}><h4 className='buttonClass'>SignIn</h4></button>
+                    <button className='navbar_signup' onClick={handleClick}><h4 className='buttonClass'>SignUp</h4></button>
                 </div>
                 <div className='Login_container'>
                     <h1 className='login_heading'>Unlimited movies, TV <br /> shows and more.</h1><br />

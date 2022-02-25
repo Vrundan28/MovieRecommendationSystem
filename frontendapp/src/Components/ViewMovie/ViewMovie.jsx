@@ -73,6 +73,10 @@ const ViewMovie = () => {
       </div>
       <List />
       <List />
+
+
+
+      
       {/* <div className='view_movie_container'>
             <h2>{movie.movieTitle}</h2><br /><br />
             <img src={moviePoster} className='view_movie_poster' alt='movie_poster'></img><br /><br />

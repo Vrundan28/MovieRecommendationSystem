@@ -10,8 +10,9 @@ const SearchMovie = () => {
  // "Vrundan","Vrundan","Vrundan","Vrundan","Vrundan","Vrundan","Vrundan","Vrundan","Vrundan"
   const [movieList, setMovieList] = useState([])
   const [movieTitles, setMovieTitles] = useState([])
+  // const [moviePosters, setMoviePosters] = useState([])
   const [movie, setMovie] = useState([])
-  const [suggestion, setSuggestion] = useState([])
+  // const [suggestion, setSuggestion] = useState([])
   
   const componentArray = [];
 
@@ -39,8 +40,15 @@ const SearchMovie = () => {
     }
     // console.log(matches)
     let tmpMovieId=[]
+    let tmpMoviePoster=[]
     for (var i = 0; i < matches.length; i++) {
-        tmpMovieId.push(matches[i].movieId);
+        // tmpMovieId.push(matches[i].movieId);
+        // tmpMoviePoster.push(matches[i].moviePoster);
+        let tmp = []
+        console.log(matches[i].movieId)
+        tmp.push(matches[i].movieId)
+        tmp.push(matches[i].moviePoster)
+        tmpMovieId.push(tmp)
     }
   
     let tmpMovieTitle=[]
@@ -50,9 +58,10 @@ const SearchMovie = () => {
     
     setMovieList(tmpMovieId);
     setMovieTitles(tmpMovieTitle);
-
+    // setMoviePosters(tmpMoviePoster);
+    
   }
-
+  // console.log(movieList)
   return (
       <>
         <div className='searchMovie_header'>
@@ -68,7 +77,7 @@ const SearchMovie = () => {
               <div className='searchMovie_body_left_child'>
               {
                   movieList.map((m) => (
-                      <ListItem movieId={m} />
+                      <ListItem movieId={m[0]} moviePoster={m[1]} />
                   ))
               }
               </div>
