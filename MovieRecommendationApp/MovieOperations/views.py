@@ -179,7 +179,7 @@ def get_movies_of_all_genre(request):
     according_to_genre_modify = collections.defaultdict(list)
     for i in according_to_genre:
         randArr = random.sample(range(0,len(according_to_genre[i])), min(25,len(according_to_genre[i])))
-        print(randArr)
+        # print(randArr)
         for j in range(len(randArr)):
             # print(according_to_genre[i][j])
             according_to_genre_modify[i].append(according_to_genre[i][randArr[j]])

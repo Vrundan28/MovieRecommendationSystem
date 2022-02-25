@@ -32,7 +32,6 @@ df = pd.DataFrame(dataset)
 feilds = ["movieId", "movieTitle", "movieDescription", "movieKeywords", "movieCast", "movieDirector",
           "movieProduction", "movieRuntime", "movieGenre", "movieTagline", "movieRating", "movieCover"]
 print(df)
-print("vrundan")
 access = imdb.IMDb()
 rows = []
 err = []
