@@ -1,17 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./NavigationBar.css";
-
+import { Link } from "react-router-dom";
+import { Context } from "../../context/Context";
 const NavigationBar = () => {
-
-  const handleLogin = () => {
-    window.location.href="/Login"
-  } 
-
-  
-  const handleSignup = () => {
-    window.location.href="/Signup"
-  } 
-
+  const { user } = useContext(Context);
   return (
     <nav>
       <div className="logo">MOVIE</div>
@@ -20,7 +12,9 @@ const NavigationBar = () => {
           <a href="/">Home</a>
         </li> */}
         <li>
-          <a href="/SearchMovie"><i className="fa-solid fa-magnifying-glass"></i></a>
+          <Link to="/SearchMovie">
+            <i className="fa-solid fa-magnifying-glass"></i>
+          </Link>
         </li>
         <li>
           <a href="#">Recommendations</a>
@@ -28,8 +22,20 @@ const NavigationBar = () => {
         <li>
           <a href="#">Profile</a>
         </li>
-        <button className="nav_buttons" onClick={handleLogin}>Login</button>
-        <button className="nav_buttons" onClick={handleSignup}>Signup</button>
+        {!user && (
+          <li>
+            <Link to="/Login">
+              <button className="nav_buttons">Login</button>
+            </Link>
+          </li>
+        )}
+        {!user && (
+          <li>
+            <Link to="/Signup">
+              <button className="nav_buttons">Signup</button>
+            </Link>
+          </li>
+        )}
       </ul>
     </nav>
   );

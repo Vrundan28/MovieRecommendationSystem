@@ -15,7 +15,7 @@ def addEscapeSequences(mystr):
 
 
 dataset = pd.read_csv(
-    'D:\\SDP2\\MovieRecommendationApp\\MovieOperations\\today_dataset.csv', encoding="utf-8")
+    'D:\\SDP2\\MovieRecommendationApp\\MovieOperations\\today1_dataset.csv', encoding="utf-8")
 df = pd.DataFrame(dataset)
 conn = sqlite3.connect(
     'D:\\SDP2\\MovieRecommendationApp\\db.sqlite3')

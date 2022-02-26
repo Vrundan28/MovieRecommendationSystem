@@ -22,21 +22,11 @@ const Home = () => {
     fetchdata();
     console.log(Movies);
   }, []);
-
-  const handleClick = () => {
-    window.location.href = "/Login";
-  };
   return (
     <>
       <div className="home">
         <NavigationBar />
         <Slider />
-        {/* <List />
-        <List />
-        <List />
-        <List />
-        <List /> */}
-
         {Movies &&
           Object.keys(Movies).map((keyname, i) => (
             <List genre_name={keyname} movies={Movies[keyname]} />
