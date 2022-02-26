@@ -19,16 +19,11 @@ const ShowMovie = () => {
         const currMovie = await axios.get(
           `http://127.0.0.1:8000/movieOperations/getMovie/${movieId}/`
         );
-        // console.log(currMovie.data);
-        // console.log("helllllo");
         setmovie(currMovie.data);
         console.log(movie);
         setFetched(true);
-        // console.log(currMovie.data);
         const moviePoster1 = currMovie.data.moviePoster;
         setmoviePoster(moviePoster1);
-        // console.log(currMovie.data);
-        // console.log(moviePoster1)
       } catch (err) {
         console.log("Not Found");
       }
@@ -53,27 +48,46 @@ const ShowMovie = () => {
     } catch (err) {}
   };
   return (
-    <header
-      className="Movie_background"
-      style={{
-        backgroundSize: "cover",
-        backgroundImage: `url(${moviePoster})`,
-        backgroundPosition: "center center",
-      }}
-    >
-      <div className="Movie_Details">
-        <h1 className="Movie_Title">{movie.movieTitle}</h1>
-        <div className="buttons">
-          <button onClick={handleClick} className="Function_Buttons">
-            <i class="fa-solid fa-play"></i> Play
-          </button>
-          <button onClick={handleLike} className="Function_Buttons">
-            <i class="fa-solid fa-heart"></i> Like
-          </button>
+    <div className="showmovie_container">
+      <div className="showmovie_left_details">
+        <div className="showmovie_content">
+          <div className="showmovie_movieTitle">{movie.movieTitle}</div>
+          <div className="showmovie_buttons">
+            <button onClick={handleClick} className="Function_Buttons">
+              <i class="fa-solid fa-play"></i> Play
+            </button>
+            <button onClick={handleLike} className="Function_Buttons">
+              <i class="fa-solid fa-heart"></i> Like
+            </button>
+          </div>
+          <div className="showmovie_description">{movie.movieDescription}</div>
         </div>
-        <h1 className="Movie_Description">{movie.movieDescription}</h1>
       </div>
-    </header>
+      <div className="showmovie_right_poster">
+        <img src={moviePoster} />
+      </div>
+    </div>
+    // <header
+    //   className="Movie_background"
+    //   style={{
+    //     backgroundSize: "cover",
+    //     backgroundImage: `url(${moviePoster})`,
+    //     backgroundPosition: "center center",
+    //   }}
+    // >
+    //   <div className="Movie_Details">
+    //     <h1 className="Movie_Title">{movie.movieTitle}</h1>
+    //     <div className="buttons">
+    //       <button onClick={handleClick} className="Function_Buttons">
+    //         <i class="fa-solid fa-play"></i> Play
+    //       </button>
+    //       <button onClick={handleLike} className="Function_Buttons">
+    //         <i class="fa-solid fa-heart"></i> Like
+    //       </button>
+    //     </div>
+    //     <h1 className="Movie_Description">{movie.movieDescription}</h1>
+    //   </div>
+    // </header>
   );
 };
 

@@ -1,3 +1,5 @@
+# We would like to appreciate and thank TMDB(themoviedb.org) for letting us use their API for accessing movies information
+
 from nbformat import write
 import pandas as pd
 import requests

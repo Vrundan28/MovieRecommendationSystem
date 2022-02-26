@@ -58,8 +58,13 @@ def login(request):
         username = request.POST["userName"]
         password = request.POST["password"]
         currentuser = authenticate(username=username, password=password)
+        # print(type(currentuser))
+        cur_user = CustomUser.objects.get(user_id=currentuser.id)
+        cur_user_dict = cur_user.to_dict()
+        cur_user_json = json.dumps(cur_user_dict)
+        print(cur_user_json)
         if currentuser is not None:
-            return JsonResponse("Login Success", safe=False)
+            return JsonResponse(cur_user_json, safe=False)
         else:
             return JsonResponse("Login Failed", safe=False)
 
@@ -118,4 +123,3 @@ def get_liked_movies_of_user(request, id):
     for movie in movies:
         print(get_title_from_index(movie[0]))
     return JsonResponse(data, safe=False)
-

@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&display=swap");
+
 * {
   margin: 0;
   padding: 0;
@@ -64,10 +66,62 @@
   padding-bottom: 0.5rem;
   color: white;
   cursor: pointer;
+  -webkit-box-shadow: 12px 14px 18px -7px rgba(0, 0, 0, 0.68);
+  -moz-box-shadow: 12px 14px 18px -7px rgba(0, 0, 0, 0.68);
+  box-shadow: 12px 14px 18px -7px rgba(0, 0, 0, 0.68);
 }
 
 .Function_Buttons:hover {
   color: black;
   background-color: aliceblue;
   transition: all 0.5s;
+}
+
+.showmovie_container {
+  width: 97vw;
+  height: 60vh;
+  -webkit-box-shadow: 15px 14px 25px 1px rgba(0, 0, 0, 0.68);
+  -moz-box-shadow: 15px 14px 25px 1px rgba(0, 0, 0, 0.68);
+  box-shadow: 15px 14px 25px 1px rgba(0, 0, 0, 0.68);
+  margin: 3vh;
+  display: flex;
+}
+.showmovie_left_details {
+  flex: 6;
+  border-top-left-radius: 3%;
+  border-bottom-left-radius: 3%;
+  background-color: rgb(36, 35, 35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.showmovie_right_poster {
+  flex: 3;
+}
+.showmovie_right_poster img {
+  object-fit: cover;
+  border-top-right-radius: 3%;
+  border-bottom-right-radius: 3%;
+}
+.showmovie_content {
+  width: 97%;
+  height: 98%;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  font-family: "Open Sans", sans-serif;
+  padding-left: 1%;
+  /* background-color: yellow; */
+}
+.showmovie_movieTitle {
+  font-size: 4rem;
+  color: white;
+}
+.showmovie_buttons {
+  margin-top: 4%;
+}
+.showmovie_description {
+  color: white;
+  font-size: 1.2rem;
+  margin-top: 4%;
 }
