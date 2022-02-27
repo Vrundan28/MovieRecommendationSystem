@@ -27,7 +27,7 @@ const List = ({ genre_name, movies }) => {
       listReference.current.style.transform = `translateX(${distance - 232}px)`;
     }
   };
-  console.log(movies )
+  // console.log("vrundan")
   return (
     <>
       <div className="list">
@@ -39,39 +39,12 @@ const List = ({ genre_name, movies }) => {
             onClick={() => Slide("backward")}
           />
           <div ref={listReference} className="container">
-            {/* <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem /> */}
-
+            
             {
               movieList.map((m) => (
                 <ListItem movieId={m.movieId} moviePoster={m.moviePoster} />
               )
             )}
-            {/* <ListItem movieId={4803}/>
-                    <ListItem movieId={4803}/>
-                    <ListItem movieId={4803}/>
-                    <ListItem movieId={4803}/>
-                    <ListItem movieId={4803}/>
-                    <ListItem movieId={4803}/>
-                    <ListItem movieId={4803}/>
-                    <ListItem movieId={4803}/>
-                    <ListItem/>
-                    <ListItem/>
-                    <ListItem/>
-                    <ListItem/>
-                    <ListItem/> */}
           </div>
           <ArrowForwardIosIcon
             className="arrow forward"

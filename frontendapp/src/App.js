@@ -8,6 +8,8 @@ import Signup from './Components/Signup/Signup';
 import Home from './Components/Home/Home';
 import SearchMovie from './Components/SearchMOvie/SearchMovie';
 import ShowMovie from './Components/ShowMovie/ShowMovie';
+import Recommendations from './Components/Recommendations/Recommendations';
+import Profile from './Components/Profile/Profile';
 
 const App = () => {
 
@@ -22,6 +24,8 @@ const App = () => {
           <Route path='/ViewMovie/:movieId' component={ShowMovie} />
           <Route path='/PlayMovie/:movieId' component={PlayMovie} />
           <Route path='/searchMovie' component={SearchMovie} />
+          <Route path='/Recommendation' component={Recommendations} />
+          <Route path='/Profile' component={Profile} />
         </Switch>
       </BrowserRouter>
       {/* <Home /> */}

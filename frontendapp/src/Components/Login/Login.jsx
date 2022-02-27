@@ -20,6 +20,7 @@ const Login = () => {
         data
       );
       let json_user = JSON.parse(data1.data);
+      // console.log(json_user)
       dispatch({ type: "LOGIN", payload: json_user });
       window.location.href = "/";
       // if (data1.data === "Login Success") window.location.href = "/";

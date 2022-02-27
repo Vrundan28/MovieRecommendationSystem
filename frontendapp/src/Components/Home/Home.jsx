@@ -20,7 +20,7 @@ const Home = () => {
       // console.log(Object.keys(my_json_data));
     };
     fetchdata();
-    console.log(Movies);
+    // console.log(Movies);
   }, []);
   return (
     <>
@@ -29,7 +29,10 @@ const Home = () => {
         <Slider />
         {Movies &&
           Object.keys(Movies).map((keyname, i) => (
-            <List genre_name={keyname} movies={Movies[keyname]} />
+            <>
+              {console.log(typeof(Movies[keyname]))}
+              <List genre_name={keyname} movies={Movies[keyname]} />
+            </>
           ))}
       </div>
     </>
