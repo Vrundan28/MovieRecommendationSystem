@@ -3,10 +3,16 @@ import "./NavigationBar.css";
 import { Link } from "react-router-dom";
 import { Context } from "../../context/Context";
 const NavigationBar = () => {
-  const { user } = useContext(Context);
+  const { user,dispatch } = useContext(Context);
+
+  const handleLogout = () => {
+    dispatch({type:"LOGOUT"})
+    window.location.replace('/')
+  } 
+
   return (
     <nav>
-      <div className="logo">MOVIE</div>
+      <Link to="/" className="linkClass"><div className="logo">MOVIE</div></Link>
       <ul>
         {/* <li>
           <a href="/">Home</a>
@@ -17,10 +23,10 @@ const NavigationBar = () => {
           </Link>
         </li>
         <li>
-          <a href="#">Recommendations</a>
+          <a href="/Recommendation">Recommendations</a>
         </li>
         <li>
-          <a href="#">Profile</a>
+          <a href="/Profile">Profile</a>
         </li>
         {!user && (
           <li>
@@ -36,6 +42,13 @@ const NavigationBar = () => {
             </Link>
           </li>
         )}
+        {
+          user && (
+            <li>
+                <button className="nav_buttons" onClick={handleLogout}>Logout</button>
+            </li>
+          )
+        }
       </ul>
     </nav>
   );

@@ -15,10 +15,10 @@ def addEscapeSequences(mystr):
 
 
 dataset = pd.read_csv(
-    'D:\\SDP2\\MovieRecommendationApp\\MovieOperations\\today1_dataset.csv', encoding="utf-8")
+    'C:\\Users\\17323\Desktop\Vrundan\SDP Project\MovieRecommendationApp\\MovieOperations\\today1_dataset.csv', encoding="utf-8")
 df = pd.DataFrame(dataset)
 conn = sqlite3.connect(
-    'D:\\SDP2\\MovieRecommendationApp\\db.sqlite3')
+    'C:\\Users\\17323\Desktop\Vrundan\SDP Project\MovieRecommendationApp\\db.sqlite3')
 cursor = conn.cursor()
 start = time.time_ns()
 for i, j in df.iterrows():
@@ -48,26 +48,26 @@ for i, j in df.iterrows():
     # conn.execute(insert_query)
     # cursor.execute(insert_query, (j['original_title'], j['overview'], j['keywords'], j['cast'],j['director'], production_companies_string, str(j['runtime']), j['genres'], j['tagline'], "10"))
 
-    insert_query="""INSERT INTO MovieOperations_movie(movieTitle,movieDescription,movieKeywords,movieCast,movieDirector,movieProduction,movieRuntime,movieGenre,movieTagline,movieRating,moviePoster) VALUES (?,?,?,?,?,?,?,?,?,?,?)"""
-    movieTitle=j['movieTitle']
-    movieDescription=j['movieDescription']
-    movieKeywords=j['movieKeywords']
-    movieCast=j['movieCast']
-    movieDirector=j['movieDirector']
-    movieProduction=j['movieProduction']
-    movieRuntime=str(j['movieRuntime'])
-    movieGenre=j['movieGenre']
-    movieTagline=j['movieTagline']
-    movieRating="10"
-    moviePoster = j['movieCover']
-    data_tuple=(movieTitle,movieDescription,movieKeywords,movieCast,movieDirector,movieProduction,movieRuntime,movieGenre,movieTagline,movieRating,moviePoster)
-    cursor.execute(insert_query,data_tuple)
-
-    # update_query = """Update MovieOperations_movie SET moviePoster = ? where movieId = ? """
+    # insert_query="""INSERT INTO MovieOperations_movie(movieTitle,movieDescription,movieKeywords,movieCast,movieDirector,movieProduction,movieRuntime,movieGenre,movieTagline,movieRating,moviePoster) VALUES (?,?,?,?,?,?,?,?,?,?,?)"""
+    # movieTitle=j['movieTitle']
+    # movieDescription=j['movieDescription']
+    # movieKeywords=j['movieKeywords']
+    # movieCast=j['movieCast']
+    # movieDirector=j['movieDirector']
+    # movieProduction=j['movieProduction']
+    # movieRuntime=str(j['movieRuntime'])
+    # movieGenre=j['movieGenre']
+    # movieTagline=j['movieTagline']
+    # movieRating="10"
     # moviePoster = j['movieCover']
-    # movieId = j['movieId']
-    # data_tuple = (moviePoster, movieId)
-    # cursor.execute(update_query, data_tuple)
+    # data_tuple=(movieTitle,movieDescription,movieKeywords,movieCast,movieDirector,movieProduction,movieRuntime,movieGenre,movieTagline,movieRating,moviePoster)
+    # cursor.execute(insert_query,data_tuple)
+
+    update_query = """Update MovieOperations_movie SET movieUrl = ? where movieId = ? """
+    movieUrl = "default_video.mp4"
+    movieId = j['movieId']
+    data_tuple = (movieUrl, movieId)
+    cursor.execute(update_query, data_tuple)
 
 conn.commit()
 end = time.time_ns()
