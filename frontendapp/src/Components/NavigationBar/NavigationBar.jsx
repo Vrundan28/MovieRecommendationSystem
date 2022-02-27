@@ -3,16 +3,18 @@ import "./NavigationBar.css";
 import { Link } from "react-router-dom";
 import { Context } from "../../context/Context";
 const NavigationBar = () => {
-  const { user,dispatch } = useContext(Context);
+  const { user, dispatch } = useContext(Context);
 
   const handleLogout = () => {
-    dispatch({type:"LOGOUT"})
-    window.location.replace('/')
-  } 
+    dispatch({ type: "LOGOUT" });
+    window.location.replace("/");
+  };
 
   return (
     <nav>
-      <Link to="/" className="linkClass"><div className="logo">MOVIE</div></Link>
+      <Link to="/" className="linkClass">
+        <div className="logo">MOVIE</div>
+      </Link>
       <ul>
         {/* <li>
           <a href="/">Home</a>
@@ -23,10 +25,14 @@ const NavigationBar = () => {
           </Link>
         </li>
         <li>
-          <a href="/Recommendation">Recommendations</a>
+          <Link className="linkClass" to="/Recommendation">
+            Recommendations
+          </Link>
         </li>
         <li>
-          <a href="/Profile">Profile</a>
+          <Link className="linkClass" to="/Profile">
+            Profile
+          </Link>
         </li>
         {!user && (
           <li>
@@ -42,13 +48,13 @@ const NavigationBar = () => {
             </Link>
           </li>
         )}
-        {
-          user && (
-            <li>
-                <button className="nav_buttons" onClick={handleLogout}>Logout</button>
-            </li>
-          )
-        }
+        {user && (
+          <li>
+            <button className="nav_buttons" onClick={handleLogout}>
+              Logout
+            </button>
+          </li>
+        )}
       </ul>
     </nav>
   );

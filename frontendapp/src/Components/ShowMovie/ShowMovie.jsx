@@ -1,18 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import "./ShowMovie.css";
 import { useLocation } from "react-router-dom";
 import List from "../List/List";
+import { Context } from "../../context/Context";
+import Dialog from "./Dialog";
 
 const ShowMovie = () => {
   const location = useLocation();
   const movieId = location.pathname.split("/")[2];
-  console.log("Here : ", movieId);
+  // console.log("Here : ", movieId);
+  const { user, dispatch } = useContext(Context);
   const [movie, setmovie] = useState({});
   const [fetched, setFetched] = useState(false);
+  const [isLiked, setisLiked] = useState(true);
   const [moviePoster, setmoviePoster] = useState(
     "https://wallpapercave.com/wp/wp1816342.jpg"
   );
+  const [deletePopUp, setdeletePopUp] = useState({
+    isLoading: false,
+  });
   useEffect(() => {
     const fetchMovie = async () => {
       try {
@@ -28,23 +35,74 @@ const ShowMovie = () => {
         console.log("Not Found");
       }
     };
+    const checkIfLiked = async () => {
+      const fetched = await axios.get(
+        `http://127.0.0.1:8000/movieOperations/isLiked/${movieId}/${user.userId}/`
+      );
+      // console.log(fetched.data);
+      let json_data_liked = JSON.parse(fetched.data);
+      console.log(json_data_liked);
+      setisLiked(json_data_liked["isLiked"]);
+    };
     fetchMovie();
+    checkIfLiked();
   }, []);
   const handleClick = () => {
     window.location.replace(`/PlayMovie/${movieId}`);
   };
-
+  const handleDeleteMovie = async () => {
+    setdeletePopUp({
+      isLoading: true,
+    });
+  };
+  const deleteMovieAPICall = async () => {
+    try {
+      const fetch = await axios.delete(
+        `http://127.0.0.1:8000/movieOperations/deleteMovie/${movieId}`
+      );
+    } catch (err) {}
+  };
+  const deleteConfirmation = (choice) => {
+    if (choice) {
+      // Perform delete operation here
+      deleteMovieAPICall();
+      setdeletePopUp({
+        isLoading: false,
+      });
+      window.location.href = "/";
+    } else {
+      // Don't do anything just keep it normal
+      setdeletePopUp({
+        isLoading: false,
+      });
+    }
+  };
   const handleLike = async () => {
     try {
       const Senddata = {
-        userId: 3,
+        userId: user.userId,
         movieId: movieId,
       };
       const likeMovie = await axios.post(
         `http://127.0.0.1:8000/movieOperations/likeMovie/`,
         Senddata
       );
-      console.log(likeMovie.data);
+      // console.log(likeMovie.data);
+      setisLiked(!isLiked);
+    } catch (err) {}
+  };
+  const handleDislike = async () => {
+    try {
+      const Senddata = {
+        userId: user.userId,
+        movieId: movieId,
+      };
+      const dislikeMovie = await axios.post(
+        `http://127.0.0.1:8000/movieOperations/dislikeMovie/`,
+        Senddata
+      );
+      // console.log(likeMovie.data);
+      setisLiked(!isLiked);
     } catch (err) {}
   };
   return (
@@ -54,40 +112,40 @@ const ShowMovie = () => {
           <div className="showmovie_movieTitle">{movie.movieTitle}</div>
           <div className="showmovie_buttons">
             <button onClick={handleClick} className="Function_Buttons">
-              <i class="fa-solid fa-play"></i> Play
+              <i class="showmovie_icon fa-solid fa-play"></i>Play
             </button>
-            <button onClick={handleLike} className="Function_Buttons">
-              <i class="fa-solid fa-heart"></i> Like
-            </button>
+            {!isLiked && (
+              <button onClick={handleLike} className="Function_Buttons">
+                <i class="showmovie_icon fa-solid fa-thumbs-up"></i>Like
+              </button>
+            )}
+            {isLiked && (
+              <button onClick={handleDislike} className="Function_Buttons">
+                <i class="showmovie_icon fa-solid fa-thumbs-down"></i>Dislike
+              </button>
+            )}
           </div>
           <div className="showmovie_description">{movie.movieDescription}</div>
+          {user && user.isSuperuser && (
+            <div className="showmovie_admin_options">
+              <button className="Function_Buttons editbutton">
+                <i class="showmovie_icon fa-solid fa-pen-to-square"></i>Edit
+              </button>
+              <button
+                onClick={handleDeleteMovie}
+                className="Function_Buttons deletebutton"
+              >
+                <i class="showmovie_icon fa-solid fa-trash"></i>Delete
+              </button>
+            </div>
+          )}
         </div>
       </div>
       <div className="showmovie_right_poster">
         <img src={moviePoster} />
       </div>
+      {deletePopUp.isLoading && <Dialog onDialog={deleteConfirmation} />}
     </div>
-    // <header
-    //   className="Movie_background"
-    //   style={{
-    //     backgroundSize: "cover",
-    //     backgroundImage: `url(${moviePoster})`,
-    //     backgroundPosition: "center center",
-    //   }}
-    // >
-    //   <div className="Movie_Details">
-    //     <h1 className="Movie_Title">{movie.movieTitle}</h1>
-    //     <div className="buttons">
-    //       <button onClick={handleClick} className="Function_Buttons">
-    //         <i class="fa-solid fa-play"></i> Play
-    //       </button>
-    //       <button onClick={handleLike} className="Function_Buttons">
-    //         <i class="fa-solid fa-heart"></i> Like
-    //       </button>
-    //     </div>
-    //     <h1 className="Movie_Description">{movie.movieDescription}</h1>
-    //   </div>
-    // </header>
   );
 };
 

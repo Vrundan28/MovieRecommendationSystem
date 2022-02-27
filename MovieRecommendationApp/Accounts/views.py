@@ -34,7 +34,7 @@ def get_index_from_title(title):
 
 def getRecommendations(movieName):
 
-    features = ['movieTitle' , 'movieCast', 'movieGenre', 'movieDirector']
+    features = ['movieTitle', 'movieCast', 'movieGenre', 'movieDirector']
     for feature in features:
         dataset[feature] = dataset[feature].fillna('')
 
@@ -91,17 +91,18 @@ def signup(request):
 
 
 @csrf_exempt
-def get_user(request,userId) : 
+def get_user(request, userId):
     # print(username)
-    cur_user = User.objects.get(id=userId)
+    cur_user = CustomUser.objects.get(id=userId)
     curr_user_dict = collections.defaultdict(list)
-    curr_user_dict["userName"] = cur_user.username
-    curr_user_dict["first_name"] = cur_user.first_name
-    curr_user_dict["last_name"] = cur_user.last_name
-    curr_user_dict["email"] = cur_user.email
-    
+    curr_user_dict["userName"] = cur_user.user.username
+    curr_user_dict["first_name"] = cur_user.user.first_name
+    curr_user_dict["last_name"] = cur_user.user.last_name
+    curr_user_dict["email"] = cur_user.user.email
+
     cur_user_json = json.dumps(curr_user_dict)
     return JsonResponse(cur_user_json, safe=False)
+
 
 @csrf_exempt
 def get_liked_movies_of_user(request, id):
@@ -117,23 +118,23 @@ def get_liked_movies_of_user(request, id):
         current_movie = liked_movies[i].movie.movieTitle
         recommendations_for_current_movie = []
         recommended_movie_tuples = getRecommendations(current_movie)
-        cnt=0
+        cnt = 0
         for recommended_movie in recommended_movie_tuples:
             # If movie has similarity score of more than 0.4
-            if cnt<25:
+            if cnt < 25:
                 # recommended_movie[0] = id , recommended_movie[1]= similarity_score with current movie
                 print(recommended_movie[0])
                 movieobj = Movie.objects.get(movieId=(recommended_movie[0]+1))
                 recommendations_for_current_movie.append(movieobj)
-                cnt+=1
+                cnt += 1
             else:
                 break
 
-        for obj in recommendations_for_current_movie : 
-                tmpobj = obj.to_dict()
-                tmpobj["movieId"] = obj.movieId
-                # to_dict_objs[current_movie].append(tmpobj)
-                all_recommendation[current_movie].append(tmpobj)
+        for obj in recommendations_for_current_movie:
+            tmpobj = obj.to_dict()
+            tmpobj["movieId"] = obj.movieId
+            # to_dict_objs[current_movie].append(tmpobj)
+            all_recommendation[current_movie].append(tmpobj)
             # print(current_movie)
         # jsdata = json.dumps({current_movie: to_dict_objs})
     # print(all_recommendation)
@@ -149,14 +150,14 @@ def get_liked_movies_of_user(request, id):
 
 
 @csrf_exempt
-def getLikedMovie(request,id) :
+def getLikedMovie(request, id):
     liked_movies = Likes.objects.filter(user_id=id)
     obj = []
     for movie in liked_movies:
         obj.append(movie.movie)
-        
+
     all_recommendation = collections.defaultdict(list)
-    for obj1 in obj : 
+    for obj1 in obj:
         tmpobj = obj1.to_dict()
         tmpobj["movieId"] = obj1.movieId
         # to_dict_objs[current_movie].append(tmpobj)
@@ -164,4 +165,3 @@ def getLikedMovie(request,id) :
     data2 = json.dumps(all_recommendation)
     # print(data2)
     return JsonResponse(data2, safe=False)
-    

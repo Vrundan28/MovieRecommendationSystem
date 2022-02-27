@@ -125,3 +125,27 @@
   font-size: 1.2rem;
   margin-top: 4%;
 }
+.showmovie_icon {
+  font-size: 1rem;
+  margin-right: 1vw;
+}
+.showmovie_admin_options {
+  display: flex;
+  width: 30vw;
+  margin-top: 2vh;
+}
+/* .showmovie_admin_button {
+  color: white;
+  padding: 1%;
+  border-radius: 7%;
+  margin: 2%;
+  width:
+  border: none;
+} */
+.editbutton {
+  background-color: rgb(224, 224, 63);
+  color: black;
+}
+.deletebutton {
+  background-color: rgb(245, 70, 70);
+}
