@@ -1,21 +1,20 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./ListItem.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-
-const ListItem = ({movieId,moviePoster}) => {
+const ListItem = ({ movieId, moviePoster }) => {
   const [movieUrl, setMovieUrl] = useState("");
   useEffect(() => {
-    const setUseState = () =>{
+    const setUseState = () => {
       let tmpUrl = "";
-      tmpUrl += "/ViewMovie/"
-      tmpUrl += movieId
-      setMovieUrl(tmpUrl)
-    }
+      tmpUrl += "/ViewMovie/";
+      tmpUrl += movieId;
+      setMovieUrl(tmpUrl);
+    };
     setUseState();
-  }, [movieId])
-  console.log(movieId,moviePoster)
+  }, [movieId]);
+  // console.log(movieId,moviePoster)
 
   return (
     <div className="listitem">

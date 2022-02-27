@@ -27,10 +27,7 @@
 
 .userprofile_left_poster img{
     object-fit: cover;
-    /* border-top-right-radius: 3%;
-    border-bottom-right-radius: 3%; */
-    border-top-left-radius: 3%;
-    border-bottom-left-radius: 3%;
+    border-radius:3%;
 }
 
 .userprofile_right_details{

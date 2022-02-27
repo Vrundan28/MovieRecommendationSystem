@@ -9,5 +9,5 @@ class CustomUser(models.Model):
     profilepic = models.CharField(max_length=1024,default="https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account-male-user-icon.png")
 
     def to_dict(self):
-        return {"userId": self.user_id, "username": self.user.username, "isSuperuser": self.user.is_superuser}
+        return {"userId": self.id, "username": self.user.username, "isSuperuser": self.user.is_superuser}
         

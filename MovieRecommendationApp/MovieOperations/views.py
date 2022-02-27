@@ -71,13 +71,13 @@ def SearchMovie(request):
 def DeleteMovie(request, id):
     if request.method == "DELETE":
         movie = Movie.objects.filter(movieId=id)
-        x = str(settings.BASE_DIR)+"/media/"+movie.values()[0]["movieUrl"]
-        print(settings.BASE_DIR)
-        if os.path.exists(x):
-            print("The file exist")
-            os.remove(x)
-        else:
-            print("The file does not exist")
+        # x = str(settings.BASE_DIR)+"/media/"+movie.values()[0]["movieUrl"]
+        # print(settings.BASE_DIR)
+        # if os.path.exists(x):
+        #     print("The file exist")
+        #     os.remove(x)
+        # else:
+        #     print("The file does not exist")
         movie.delete()
         return JsonResponse("Delete successful", safe=False)
 
@@ -110,16 +110,33 @@ def GetAllMovie(request):
 
 @csrf_exempt
 def LikeMovie(request):
-    print("Here")
+    # print("Here")
     if request.method == "POST":
         data = JSONParser().parse(request)
         movieId = data["movieId"]
         userId = data["userId"]
-        user = CustomUser.objects.get(user_id=userId)
+        user = CustomUser.objects.get(id=userId)
         movie = Movie.objects.get(movieId=movieId)
         liked_movie = Likes(user=user, movie=movie)
         liked_movie.save()
+        # print('In liked Movie')
         return JsonResponse("Liked Successfully", safe=False)
+
+
+@csrf_exempt
+def DislikeMovie(request):
+    if request.method == "POST":
+        data = JSONParser().parse(request)
+        movieId = data["movieId"]
+        userId = data["userId"]
+        # print('In dislike Movie')
+        # print(movieId)
+        # print(userId)
+        user = CustomUser.objects.get(id=userId)
+        movie = Movie.objects.get(movieId=movieId)
+        liked_movie = Likes.objects.filter(user_id=user, movie_id=movie)
+        liked_movie.delete()
+    return JsonResponse("Deleted", safe=False)
 
 
 @csrf_exempt
@@ -148,15 +165,6 @@ def createDataset(request):
     return JsonResponse("Dataset Created Successfully", safe=False)
 
 
-# @csrf_exempt
-# def SearchMovie(request):
-#     if request.method == "POST":
-#         searchTerm = request.POST["searchTerm"]
-#         # movie = Movie.objects.filter(name__contains='searchTerm')
-#         print(searchTerm)
-#         return JsonResponse("search Term", safe=False)
-    # return JsonResponse("search Term", safe=False)
-
 @csrf_exempt
 def get_movies_of_all_genre(request):
     # Fetch all movies
@@ -175,17 +183,31 @@ def get_movies_of_all_genre(request):
             genres_in_movie = nltk.word_tokenize(current_movie.movieGenre)
         for j in range(0, len(genres_in_movie)):
             according_to_genre[genres_in_movie[j]].append(current_movie_dict)
-        # print(current_movie_dict) 
+        # print(current_movie_dict)
     according_to_genre_modify = collections.defaultdict(list)
     for i in according_to_genre:
-        randArr = random.sample(range(0,len(according_to_genre[i])), min(25,len(according_to_genre[i])))
+        randArr = random.sample(range(0, len(according_to_genre[i])), min(
+            25, len(according_to_genre[i])))
         # print(randArr)
         for j in range(len(randArr)):
             # print(according_to_genre[i][j])
-            according_to_genre_modify[i].append(according_to_genre[i][randArr[j]])
+            according_to_genre_modify[i].append(
+                according_to_genre[i][randArr[j]])
     # print(according_to_genre_modify)
     json_Data = json.dumps(according_to_genre_modify)
     time_elapsed = datetime.now() - start
     print("Time taken : {}".format(time_elapsed))
     # print(json_Data)
     return JsonResponse(json_Data, safe=False)
+
+
+@csrf_exempt
+def isLiked(request, movieId, userId):
+    liked_obj = Likes.objects.filter(movie_id=movieId, user_id=userId)
+    res_dict = {}
+    if liked_obj.count() == 1:
+        res_dict["isLiked"] = True
+    else:
+        res_dict["isLiked"] = False
+    json_data = json.dumps(res_dict)
+    return JsonResponse(json_data, safe=False)
