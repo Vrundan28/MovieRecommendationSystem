@@ -6,14 +6,10 @@ import axios from 'axios'
 
 
 const SearchMovie = () => {
- // 4803,4802,4801,4800,4799,4798,4797,4796,4795,4794,4793,4792,4792,4792,4792,4792,4792,4792,4792,4792
- // "Vrundan","Vrundan","Vrundan","Vrundan","Vrundan","Vrundan","Vrundan","Vrundan","Vrundan"
+
   const [movieList, setMovieList] = useState([])
   const [movieTitles, setMovieTitles] = useState([])
-  // const [moviePosters, setMoviePosters] = useState([])
   const [movie, setMovie] = useState([])
-  // const [suggestion, setSuggestion] = useState([])
-  
   const componentArray = [];
 
   useEffect(() => {
@@ -28,8 +24,6 @@ const SearchMovie = () => {
   }, [])
 
   const handleChange = async(e) => {
-    // e.preventDefault();
-    // console.log(e.target.value)
     let matches=[]
     if(e.target.value.length > 0)
     {
@@ -38,12 +32,9 @@ const SearchMovie = () => {
             return u.movieTitle.match(regex)
         })
     }
-    // console.log(matches)
     let tmpMovieId=[]
     let tmpMoviePoster=[]
     for (var i = 0; i < matches.length; i++) {
-        // tmpMovieId.push(matches[i].movieId);
-        // tmpMoviePoster.push(matches[i].moviePoster);
         let tmp = []
         console.log(matches[i].movieId)
         tmp.push(matches[i].movieId)

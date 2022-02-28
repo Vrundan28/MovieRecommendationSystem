@@ -5,6 +5,8 @@ from MovieOperations.models import Movie, Likes
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 from rest_framework.parsers import JSONParser
+import random
+from django.core.files.storage import default_storage
 from django.forms.models import model_to_dict
 from MovieOperations.serializers import MovieSerializer, MovieEncoder
 from django.contrib import auth
@@ -99,7 +101,7 @@ def get_user(request, userId):
     curr_user_dict["first_name"] = cur_user.user.first_name
     curr_user_dict["last_name"] = cur_user.user.last_name
     curr_user_dict["email"] = cur_user.user.email
-
+    curr_user_dict['profilepic'] = cur_user.profilepic
     cur_user_json = json.dumps(curr_user_dict)
     return JsonResponse(cur_user_json, safe=False)
 
@@ -142,12 +144,39 @@ def get_liked_movies_of_user(request, id):
     # print(data2)
     return JsonResponse(data2, safe=False)
 
-    # movies = getRecommendations(liked_movies[0].movie.movieTitle)
-    # print(movies)
-    # for movie in movies:
-    #     print(get_title_from_index(movie[0]))
-    # return JsonResponse(data, safe=False)
 
+@csrf_exempt
+def updateProfile(request, id):
+
+    if request.method == 'POST':
+        # Extract user with given id
+        user = CustomUser.objects.get(id=id)
+
+        # Extract profile picture image from incoming form data
+        propic = request.FILES['profPicfile']
+
+        # If user has updated his/her profile picture it will not be null
+        if propic is not None:
+            # Generate a random number of 64bits
+            rand = random.getrandbits(64)
+            random_num = str(rand)  
+
+            # Generate a url in which initial part is url of backend server's media folder and latter part is username and appending the randomly generated number                         
+            # Assign the profileurl to user's profilepic field in database
+            profileurl = 'http://127.0.0.1:8000/media/'+user.user.username+random_num
+            user.profilepic = profileurl    
+
+            # Store the image into backend's media folder
+            res = default_storage.save(user.user.username+random_num, propic)
+
+        # Update other fields as well     
+        user.user.first_name = request.POST.get('firstname')
+        user.user.last_name = request.POST.get('lastname')
+        user.user.email = request.POST.get('email')
+
+        # Save the updated user
+        user.save()
+    return JsonResponse("user successfully updated", safe=False)
 
 @csrf_exempt
 def getLikedMovie(request, id):

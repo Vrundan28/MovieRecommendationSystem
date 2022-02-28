@@ -149,3 +149,8 @@
 .deletebutton {
   background-color: rgb(245, 70, 70);
 }
+.showmovie_likecount {
+  font-size: 1.3rem;
+  color: white;
+  margin-top:2vh;
+}

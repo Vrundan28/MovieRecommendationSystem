@@ -27,7 +27,6 @@ const List = ({ genre_name, movies }) => {
       listReference.current.style.transform = `translateX(${distance - 232}px)`;
     }
   };
-  // console.log("vrundan")
   return (
     <>
       <div className="list">

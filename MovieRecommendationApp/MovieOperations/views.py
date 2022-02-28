@@ -85,8 +85,11 @@ def DeleteMovie(request, id):
 @csrf_exempt
 def GetMovie(request, id):
     if request.method == "GET":
-        movie = Movie.objects.filter(movieId=id)
-        return JsonResponse(movie.values()[0], safe=False)
+        movie = Movie.objects.get(movieId=id)
+        print(movie)
+        dict_movie = movie.to_dict()
+        json_movie = json.dumps(dict_movie)
+        return JsonResponse(json_movie, safe=False)
 
 
 def GetAllMovie(request):
@@ -117,6 +120,8 @@ def LikeMovie(request):
         userId = data["userId"]
         user = CustomUser.objects.get(id=userId)
         movie = Movie.objects.get(movieId=movieId)
+        movie.likecount = movie.likecount+1
+        movie.save()
         liked_movie = Likes(user=user, movie=movie)
         liked_movie.save()
         # print('In liked Movie')
@@ -129,12 +134,14 @@ def DislikeMovie(request):
         data = JSONParser().parse(request)
         movieId = data["movieId"]
         userId = data["userId"]
-        # print('In dislike Movie')
+        print('In dislike Movie')
         # print(movieId)
         # print(userId)
         user = CustomUser.objects.get(id=userId)
         movie = Movie.objects.get(movieId=movieId)
         liked_movie = Likes.objects.filter(user_id=user, movie_id=movie)
+        movie.likecount = movie.likecount-1
+        movie.save()
         liked_movie.delete()
     return JsonResponse("Deleted", safe=False)
 
