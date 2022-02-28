@@ -14,6 +14,9 @@ const ShowMovie = () => {
   const [movie, setmovie] = useState({});
   const [fetched, setFetched] = useState(false);
   const [isLiked, setisLiked] = useState(true);
+  const [movieTitle, setmovieTitle] = useState("");
+  const [movieDescription, setMovieDescription] = useState("");
+  const [likeCount, setLikecount] = useState(0);
   const [moviePoster, setmoviePoster] = useState(
     "https://wallpapercave.com/wp/wp1816342.jpg"
   );
@@ -26,11 +29,14 @@ const ShowMovie = () => {
         const currMovie = await axios.get(
           `http://127.0.0.1:8000/movieOperations/getMovie/${movieId}/`
         );
-        setmovie(currMovie.data);
-        console.log(movie);
+        let json_data = JSON.parse(currMovie.data);
+        // setmovie(currMovie.data);
+        console.log(json_data);
+        setmovieTitle(json_data["movieTitle"]);
+        setMovieDescription(json_data["movieDescription"]);
+        setmoviePoster(json_data["moviePoster"]);
+        setLikecount(json_data["likeCount"]);
         setFetched(true);
-        const moviePoster1 = currMovie.data.moviePoster;
-        setmoviePoster(moviePoster1);
       } catch (err) {
         console.log("Not Found");
       }
@@ -41,7 +47,7 @@ const ShowMovie = () => {
       );
       // console.log(fetched.data);
       let json_data_liked = JSON.parse(fetched.data);
-      console.log(json_data_liked);
+      console.log(json_data_liked["likeCount"]);
       setisLiked(json_data_liked["isLiked"]);
     };
     fetchMovie();
@@ -78,6 +84,7 @@ const ShowMovie = () => {
     }
   };
   const handleLike = async () => {
+    setLikecount(likeCount + 1);
     try {
       const Senddata = {
         userId: user.userId,
@@ -92,6 +99,7 @@ const ShowMovie = () => {
     } catch (err) {}
   };
   const handleDislike = async () => {
+    setLikecount(likeCount - 1);
     try {
       const Senddata = {
         userId: user.userId,
@@ -109,7 +117,10 @@ const ShowMovie = () => {
     <div className="showmovie_container">
       <div className="showmovie_left_details">
         <div className="showmovie_content">
-          <div className="showmovie_movieTitle">{movie.movieTitle}</div>
+          <div className="showmovie_movieTitle">{movieTitle}</div>
+          <div className="showmovie_likecount">
+            Liked by {likeCount} people!
+          </div>
           <div className="showmovie_buttons">
             <button onClick={handleClick} className="Function_Buttons">
               <i class="showmovie_icon fa-solid fa-play"></i>Play
@@ -125,7 +136,7 @@ const ShowMovie = () => {
               </button>
             )}
           </div>
-          <div className="showmovie_description">{movie.movieDescription}</div>
+          <div className="showmovie_description">{movieDescription}</div>
           {user && user.isSuperuser && (
             <div className="showmovie_admin_options">
               <button className="Function_Buttons editbutton">
