@@ -5,14 +5,20 @@ import { useLocation } from "react-router-dom";
 import List from "../List/List";
 import { Context } from "../../context/Context";
 import Dialog from "./Dialog";
+import { FaStar } from "react-icons/fa";
 import ListItem from "../ListItem/ListItem";
 
 const ShowMovie = () => {
+  // Fetching movieId from url
   const location = useLocation();
   const movieId = location.pathname.split("/")[2];
-  // console.log("Here : ", movieId);
+
+  // Fetching user from Context
   const { user, dispatch } = useContext(Context);
+
+  // Declaring states
   const [movie, setmovie] = useState({});
+  const [rating, setRating] = useState(null);
   const [fetched, setFetched] = useState(false);
   const [isLiked, setisLiked] = useState(true);
   const [movieTitle, setmovieTitle] = useState("");
@@ -21,10 +27,19 @@ const ShowMovie = () => {
   const [moviePoster, setmoviePoster] = useState(
     "https://wallpapercave.com/wp/wp1816342.jpg"
   );
-  const [recommendMovie,setRecommendMovie] = useState([])
+  const [recommendMovie, setRecommendMovie] = useState([]);
   const [deletePopUp, setdeletePopUp] = useState({
     isLoading: false,
   });
+  const [hover, setHover] = useState(null);
+  const [hasRated, sethasRated] = useState(false);
+  const [movieRating, setmovieRating] = useState(0.0);
+  const [completedRating, setCompletedRating] = useState(false);
+  // Use Effects
+  useEffect(() => {
+    sethasRated(rating > 0 ? true : false);
+  }, [rating]);
+
   useEffect(() => {
     const fetchMovie = async () => {
       try {
@@ -38,6 +53,7 @@ const ShowMovie = () => {
         setMovieDescription(json_data["movieDescription"]);
         setmoviePoster(json_data["moviePoster"]);
         setLikecount(json_data["likeCount"]);
+        setmovieRating(json_data["movieRating"]);
         setFetched(true);
       } catch (err) {
         console.log("Not Found");
@@ -53,7 +69,8 @@ const ShowMovie = () => {
       console.log(json_data_liked["likeCount"]);
       setisLiked(json_data_liked["isLiked"]);
     };
-    const getRecommendations = async() => {
+
+    const getRecommendations = async () => {
       const fetched = await axios.get(
         `http://127.0.0.1:8000/accounts/getrecommendations/${movieId}/`
       );
@@ -66,18 +83,15 @@ const ShowMovie = () => {
     getRecommendations();
   }, []);
 
-
   const handleClick = () => {
     window.location.replace(`/PlayMovie/${movieId}`);
   };
-
 
   const handleDeleteMovie = async () => {
     setdeletePopUp({
       isLoading: true,
     });
   };
-
 
   const deleteMovieAPICall = async () => {
     try {
@@ -86,7 +100,6 @@ const ShowMovie = () => {
       );
     } catch (err) {}
   };
-
 
   const deleteConfirmation = (choice) => {
     if (choice) {
@@ -104,7 +117,6 @@ const ShowMovie = () => {
     }
   };
 
-
   const handleLike = async () => {
     setLikecount(likeCount + 1);
     try {
@@ -121,7 +133,6 @@ const ShowMovie = () => {
     } catch (err) {}
   };
 
-
   const handleDislike = async () => {
     setLikecount(likeCount - 1);
     try {
@@ -133,59 +144,108 @@ const ShowMovie = () => {
         `http://127.0.0.1:8000/movieOperations/dislikeMovie/`,
         Senddata
       );
-      // console.log(likeMovie.data);
       setisLiked(!isLiked);
     } catch (err) {}
   };
-  // console.log(recommendMovie)
+
+  const handleRate = async () => {
+    try {
+      let fdata = new FormData();
+      fdata.append("sentRating", rating);
+      const fetch = await axios.post(
+        `http://127.0.0.1:8000/movieOperations/rateMovie/${movieId}/${user.userId}`,
+        fdata
+      );
+      let json_data = JSON.parse(fetch.data);
+      setmovieRating(json_data["movieRating"]);
+      sethasRated(false);
+    } catch (err) {}
+  };
 
   return (
     <>
-    <div className="showmovie_container">
-      <div className="showmovie_left_details">
-        <div className="showmovie_content">
-          <div className="showmovie_movieTitle">{movieTitle}</div>
-          <div className="showmovie_likecount">
-            Liked by {likeCount} people!
-          </div>
-          <div className="showmovie_buttons">
-            <button onClick={handleClick} className="Function_Buttons">
-              <i class="showmovie_icon fa-solid fa-play"></i>Play
-            </button>
-            {!isLiked && (
-              <button onClick={handleLike} className="Function_Buttons">
-                <i class="showmovie_icon fa-solid fa-thumbs-up"></i>Like
-              </button>
-            )}
-            {isLiked && (
-              <button onClick={handleDislike} className="Function_Buttons">
-                <i class="showmovie_icon fa-solid fa-thumbs-down"></i>Dislike
-              </button>
-            )}
-          </div>
-          <div className="showmovie_description">{movieDescription}</div>
-          {user && user.isSuperuser && (
-            <div className="showmovie_admin_options">
-              <button className="Function_Buttons editbutton">
-                <i class="showmovie_icon fa-solid fa-pen-to-square"></i>Edit
-              </button>
-              <button
-                onClick={handleDeleteMovie}
-                className="Function_Buttons deletebutton"
-              >
-                <i class="showmovie_icon fa-solid fa-trash"></i>Delete
-              </button>
+      <div className="showmovie_container">
+        <div className="showmovie_left_details">
+          <div className="showmovie_content">
+            <div className="showmovie_movieTitle">{movieTitle}</div>
+            <div className="showmovie_likecount">
+              Liked by {likeCount} people!
             </div>
-          )}
+            <div className="showmovie_likecount">Rating : {movieRating}</div>
+            <div className="showmovie_buttons">
+              <button onClick={handleClick} className="Function_Buttons">
+                <i class="showmovie_icon fa-solid fa-play"></i>Play
+              </button>
+              {!isLiked && (
+                <button onClick={handleLike} className="Function_Buttons">
+                  <i class="showmovie_icon fa-solid fa-thumbs-up"></i>Like
+                </button>
+              )}
+              {isLiked && (
+                <button onClick={handleDislike} className="Function_Buttons">
+                  <i class="showmovie_icon fa-solid fa-thumbs-down"></i>Dislike
+                </button>
+              )}
+            </div>
+            <div className="showmovie_stars">
+              {[...Array(5)].map((star, i) => {
+                const ratingval = i + 1; // To start counting from 1,default i is 0
+                return (
+                  <label>
+                    <input
+                      type="radio"
+                      name="rating"
+                      value={ratingval}
+                      onClick={() => {
+                        setRating(
+                          ratingval == 1 && rating == 1 ? 0 : ratingval
+                        );
+                      }}
+                    />
+                    <FaStar
+                      className="showmovie_star"
+                      color={
+                        ratingval <= (hover || rating) ? "#FDDA0D" : "#F5F5DC"
+                      }
+                      size={40}
+                      onMouseEnter={() => setHover(ratingval)}
+                      onMouseLeave={() => setHover(null)}
+                    />{" "}
+                  </label>
+                );
+              })}
+              {hasRated && (
+                <button
+                  onClick={handleRate}
+                  className="Function_Buttons ratebutton"
+                >
+                  <i class="fa-solid fa-check"></i> Rate
+                </button>
+              )}
+            </div>
+            <div className="showmovie_description">{movieDescription}</div>
+            {user && user.isSuperuser && (
+              <div className="showmovie_admin_options">
+                <button className="Function_Buttons editbutton">
+                  <i class="showmovie_icon fa-solid fa-pen-to-square"></i>Edit
+                </button>
+                <button
+                  onClick={handleDeleteMovie}
+                  className="Function_Buttons deletebutton"
+                >
+                  <i class="showmovie_icon fa-solid fa-trash"></i>Delete
+                </button>
+              </div>
+            )}
+          </div>
         </div>
+        <div className="showmovie_right_poster">
+          <img src={moviePoster} />
+        </div>
+        {deletePopUp.isLoading && <Dialog onDialog={deleteConfirmation} />}
       </div>
-      <div className="showmovie_right_poster">
-        <img src={moviePoster} />
-      </div>
-      {deletePopUp.isLoading && <Dialog onDialog={deleteConfirmation} />}
-    </div>
-    <h2 className="showmovie_recommendations_heading">Similar Movies , </h2>
-    <div className="showmovie_recommendations">
+      <h2 className="showmovie_recommendations_heading">Similar Movies , </h2>
+      <div className="showmovie_recommendations">
       
       {recommendMovie && 
         recommendMovie.map((m) => (

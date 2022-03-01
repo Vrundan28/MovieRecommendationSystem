@@ -15,7 +15,6 @@
   margin-top: 5vw;
 }
 
-
 .view_movie_poster {
   height: 35vh;
   width: 30vw;
@@ -79,14 +78,15 @@
 }
 
 .showmovie_container {
-  width: 97vw;
-  height: 60vh;
+  width: 100vw;
+  height: 80vh;
   -webkit-box-shadow: 15px 14px 25px 1px rgba(0, 0, 0, 0.68);
   -moz-box-shadow: 15px 14px 25px 1px rgba(0, 0, 0, 0.68);
   box-shadow: 15px 14px 25px 1px rgba(0, 0, 0, 0.68);
-  margin-left: 2vh;
-  margin-top: 3vh;
   display: flex;
+}
+.showmovie_stars {
+  margin-top: 2vh;
 }
 .showmovie_left_details {
   flex: 6;
@@ -105,13 +105,30 @@
   border-top-right-radius: 3%;
   border-bottom-right-radius: 3%;
 }
-.showmovie_recommendations{
+input[type="radio"] {
+  display: none;
+}
+.showmovie_star {
+  cursor: pointer;
+  transition: color 200ms;
+}
+.ratebutton {
+  margin-left: 1vw;
+  background-color: rgb(45, 192, 45);
+  color: white;
+  font-size: 1rem;
+  transition: all 1s fade;
+}
+.showmovie_stars {
+  display: flex;
+}
+.showmovie_recommendations {
   margin-left: 10%;
   display: grid;
   grid-template-columns: 13vw 13vw 13vw 13vw 13vw 13vw;
   padding-bottom: 4%;
 }
-.showmovie_recommendations_heading{
+.showmovie_recommendations_heading {
   color: white;
   margin: 2%;
   margin-left: 10%;
@@ -166,5 +183,5 @@
 .showmovie_likecount {
   font-size: 1.3rem;
   color: white;
-  margin-top:2vh;
+  margin-top: 2vh;
 }
