@@ -5,7 +5,7 @@
   box-sizing: border-box;
   font-family: "Open Sans", sans-serif;
 }
-nav {
+/* nav {
   display: flex;
   background-color: rgb(34, 34, 34);
   height: 10vh;
@@ -14,20 +14,43 @@ nav {
   justify-content: space-between;
   padding: 0 50px 0 100px;
   flex-wrap: wrap;
-}
-nav .logo {
+} */
+/* nav .logo {
   color: red;
-  font-size: 2rem;
+  font-size: 2.5rem;
+} */
+.logo {
+  color: red;
+  font-size: 2.5rem;
 }
-nav ul {
+/* nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  list-style-type: none;
+} */
+.navbar_container ul {
   display: flex;
   flex-wrap: wrap;
   list-style-type: none;
 }
-nav ul li {
+/* nav ul li {
+  margin: 5px 10px;
+} */
+.navbar_container ul li {
   margin: 5px 10px;
 }
-nav ul li a {
+/* nav ul li a {
+  text-decoration: none;
+  font-size: 1.3rem;
+  color: white;
+  font-weight: 400;
+  padding: 8px 15px;
+  border-radius: 5px;
+  letter-spacing: 1px;
+  border-bottom: 1.5px solid transparent;
+  transition: all 0.3s ease;
+} */
+.navbar_container ul li a {
   text-decoration: none;
   font-size: 1.3rem;
   color: white;
@@ -55,11 +78,59 @@ nav ul li a {
   border: none;
   margin-left: 10px;
 }
-nav ul li a:hover {
+/* nav ul li a:hover {
+  border-color: red;
+  color: red;
+} */
+.navbar_container ul li a:hover {
   border-color: red;
   color: red;
 }
 .nav_buttons:hover {
   background-color: whitesmoke;
   color: rgb(251, 84, 84);
+}
+
+.navbar_container{
+  position: absolute;
+  top: 2%;
+  left: 2%;
+}
+.navLink{
+  position: absolute;
+  top: 1%;
+  left: 2vw;
+}
+.navLink1{
+  position: absolute;
+  top: 2%;
+  left: 82.5vw;
+}
+
+.navLink2{
+  position: absolute;
+  top: 2%;
+  left: 68vw;
+}
+
+.navLink3{
+  position: absolute;
+  top: 2%;
+  left: 61vw;
+}
+.navbutton{
+  position: absolute;
+  top: 2%;
+  left: 83vw;
+}
+
+.navbutton1{
+  position: absolute;
+  top: 2%;
+  left: 90vw;
+}
+.navbutton2{
+  position: absolute;
+  top: 50%;
+  left: 86vw;
 }

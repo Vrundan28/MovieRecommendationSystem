@@ -36,6 +36,7 @@ const Login = () => {
           className="login_background_image"
           src='"../../../public/images/Project2.png"'
         />
+        </div>
         {/* <Navbar /> */}
         <div className="navbar_container">
           <div className="navbar_left">
@@ -79,26 +80,6 @@ const Login = () => {
             Log in{" "}
           </button>
         </div>
-      </div>
-      {/* <div className="Login_container">
-                    <h1 className="Login_title">Log in</h1>
-                    <form className="LoginMovie" encType="multipart/form-data" onSubmit={(e) => handleLogin(e)}>
-                        <div className="Login_form">
-                            <div className="Login_form_field">
-                                <div>Username : </div>
-                                <input className="Login_input" value={userName} onChange={(e) => setUserName(e.target.value)} type="text" name="UserName" />
-                            </div>
-                            <div className="Login_form_field">
-                                <div>Password : </div>
-                                <input className="Login_input" value={password} onChange={(e) => setPassword(e.target.value)} type="text" name="password" />
-                            </div>
-                        </div>
-                        <button name="Login_btn" type='submit'>
-                            Login
-                        </button>
-                    </form>
-                </div> */}
-      {/* </div> */}
     </>
   );
 };

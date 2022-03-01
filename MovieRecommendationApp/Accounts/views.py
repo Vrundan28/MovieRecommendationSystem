@@ -19,6 +19,8 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from django.conf import settings
 import collections
+import nltk
+
 
 # Create your views here.
 dataset = pd.read_csv(str(settings.BASE_DIR) +
@@ -125,7 +127,7 @@ def get_liked_movies_of_user(request, id):
             # If movie has similarity score of more than 0.4
             if cnt < 25:
                 # recommended_movie[0] = id , recommended_movie[1]= similarity_score with current movie
-                print(recommended_movie[0])
+                # print(recommended_movie[0])
                 movieobj = Movie.objects.get(movieId=(recommended_movie[0]+1))
                 recommendations_for_current_movie.append(movieobj)
                 cnt += 1
@@ -191,6 +193,74 @@ def getLikedMovie(request, id):
         tmpobj["movieId"] = obj1.movieId
         # to_dict_objs[current_movie].append(tmpobj)
         all_recommendation["liked_movie"].append(tmpobj)
+    data2 = json.dumps(all_recommendation)
+    # print(data2)
+    return JsonResponse(data2, safe=False)
+
+@csrf_exempt
+def getRatios(request,id):
+    liked_movies = Likes.objects.filter(user_id=id)
+    obj = [] # all liked movies stored here
+    for movie in liked_movies:
+        obj.append(movie.movie)
+    all_recommendation = collections.defaultdict(int) # count of movies based on genre
+    total_movie = 0 # total movie count 
+    for obj1 in obj:
+        tmpobj = obj1.to_dict()
+        genres_in_movie = []    # Storing all genres of current movie in a list
+        if obj1.movieGenre is not None:
+            genres_in_movie = nltk.word_tokenize(obj1.movieGenre)
+        cnt=0
+        # movie added in genre and counting number of genre
+        for j in range(0, len(genres_in_movie)):
+            all_recommendation[genres_in_movie[j]]+=1
+            cnt+=1
+
+        total_movie += cnt
+    returnObj = collections.defaultdict(list)
+
+    # creating data items for graph (contains title,value,color)
+    for key,value in all_recommendation.items():
+        r = lambda: random.randint(0,255)
+        color = "%06x" % random.randint(0, 0xFFFFFF)
+        # print(color)
+        tmp = "#"+color
+        data = {
+            "title": key,
+            "value": (round(((value*1.0)/total_movie),4)* 100),
+            "color":tmp
+        }
+        returnObj["movies"].append(data)
+    data2 = json.dumps(returnObj)
+    # print(data2)
+    return JsonResponse(data2, safe=False)
+
+
+def getrecommendations(request,id):
+    movie = Movie.objects.get(movieId = id)
+    # print(movie)
+    current_movie = movie.movieTitle
+    recommended_movie_tuples = getRecommendations(current_movie)
+    # print(recommended_movie_tuples)
+    cnt=0
+    all_recommendation = collections.defaultdict(list)
+    recommendations_for_current_movie = []
+    for recommended_movie in recommended_movie_tuples:
+        # If movie has similarity score of more than 0.4
+        if cnt < 30:
+            # recommended_movie[0] = id , recommended_movie[1]= similarity_score with current movie
+            # print(recommended_movie[0])
+            movieobj = Movie.objects.get(movieId=(recommended_movie[0]+1))
+            recommendations_for_current_movie.append(movieobj)
+            cnt += 1
+        else:
+            break
+    for obj in recommendations_for_current_movie:
+        tmpobj = obj.to_dict()
+        tmpobj["movieId"] = obj.movieId
+        # to_dict_objs[current_movie].append(tmpobj)
+        all_recommendation["recommend"].append(tmpobj)
+
     data2 = json.dumps(all_recommendation)
     # print(data2)
     return JsonResponse(data2, safe=False)
