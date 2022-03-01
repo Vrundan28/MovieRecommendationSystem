@@ -3,7 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import default_storage
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser
-from MovieOperations.models import Movie, Likes
+from MovieOperations.models import Movie, Likes, MovieRating
 from MovieOperations.serializers import MovieSerializer
 from Accounts.models import CustomUser
 import random
@@ -218,3 +218,60 @@ def isLiked(request, movieId, userId):
         res_dict["isLiked"] = False
     json_data = json.dumps(res_dict)
     return JsonResponse(json_data, safe=False)
+
+# Doubt : Do we need to scale ratings ? To make sure they always lie in range of 0-5 ?
+
+
+@csrf_exempt
+def rateMovie(request, movieid, userid):
+
+    # Fetch MovieRating Object
+    movie_rating_obj = MovieRating.objects.filter(
+        movie_id=movieid, user_id=userid).first()
+    print(movie_rating_obj)
+    # Fetch movie with given id and extracting ratecount and movierating
+    movie = Movie.objects.get(movieId=movieid)
+    movies_prev_rating = movie.movieRating
+    movies_rate_count = movie.ratecount
+
+    print(movie)
+    # Rating sent in request
+    users_new_rating = request.POST['sentRating']
+    print(users_new_rating)
+    # If user has previously rated the movie then no need to increase the ratecount and calculate ratings by
+    # Subtracting his/her previous ratings and adding new rating to the total and dividing total ratecount
+
+    new_movie_rating = movie.movieRating    # Initializing with original
+
+    if movie_rating_obj is not None:
+
+        users_prev_rating = movie_rating_obj.rating_by_user
+
+        # Calculate new rating
+        new_movie_rating = (
+            float(movies_prev_rating) - float(users_prev_rating) + float(users_new_rating))/(movies_rate_count)
+
+        # Update movie rating object
+        movie_rating_obj.rating_by_user = users_new_rating
+        movie_rating_obj.save()
+
+    else:
+        # If user has not rated the movie previously then ratecount must be incremented and new MovieRating object must be created
+
+        user = CustomUser.objects.get(id=userid)
+        new_movie_rating_obj = MovieRating(
+            movie=movie, user=user, rating_by_user=users_new_rating)
+        new_movie_rating_obj.save()
+
+        movies_rate_count += 1
+        new_movie_rating = (float(movies_prev_rating) +
+                            float(users_new_rating))/int(movies_rate_count)
+        movie.ratecount = movies_rate_count
+
+    # Update new movie rating into movie object
+    movie.movieRating = new_movie_rating
+    movie.save()
+
+    movie_dict = movie.to_dict()
+    movie_json_data = json.dumps(movie_dict)
+    return JsonResponse(movie_json_data, safe=False)

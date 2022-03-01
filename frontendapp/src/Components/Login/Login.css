@@ -1,24 +1,22 @@
+.Login_form_field {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3vh;
+}
 
-  .Login_form_field {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 3vh;
-  }
- 
- 
- .login_background_image{
-   filter: brightness(40%);
-   background-image: url("../../../public/images/Project2.png");
-   background-position: center;
-   background-repeat: no-repeat;
-   background-size: cover;
-   width: 100vw;
-   position: absolute;
-   height: 100vh;
- } 
- .navbar_container {
+.login_background_image {
+  filter: brightness(40%);
+  background-image: url("../../../public/images/Project2.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100vw;
+  position: absolute;
+  height: 100vh;
+}
+.navbar_container {
   background: transparent;
   z-index: 99;
   position: relative;
@@ -44,11 +42,11 @@
 
 .Login_container {
   /* height: 100%;
-    width: 100%; */
+  width: 100%; */
   /* display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column; */
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; */
   /* margin-top: 10%; */
   position: absolute;
   top: 20vh;
@@ -130,7 +128,7 @@
   font-family: "Source Sans Pro", sans-serif;
   letter-spacing: 0.3px;
 }
-.container{
+.container {
   width: 100%;
   height: 100%;
 }

@@ -36,50 +36,50 @@ const Login = () => {
           className="login_background_image"
           src='"../../../public/images/Project2.png"'
         />
+      </div>
+      {/* <Navbar /> */}
+      <div className="navbar_container">
+        <div className="navbar_left">
+          <h3 className="navbar_title">MOVIE</h3>
         </div>
-        {/* <Navbar /> */}
-        <div className="navbar_container">
-          <div className="navbar_left">
-            <h3 className="navbar_title">MOVIE</h3>
-          </div>
-          <div className="navbar_right">
-            <Link to="/Signup">
-              <button className="navbar_signup">
-                <h4 className="buttonClass">SignUp</h4>
-              </button>
-            </Link>
-          </div>
-          <div className="Login_container">
-            <h1 className="login_heading">
-              Unlimited movies, TV <br /> shows and more.
-            </h1>
-            <h2 className="login_text">Watch anywhere. Cancel anytime.</h2>
-          </div>
-          <div className="Login_input_container">
-            <input
-              className="Login_input"
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
-              placeholder="Email address"
-              type="text"
-              name="UserName"
-            />
-          </div>
-          <div className="Login_input_container1">
-            <input
-              className="Login_input"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password"
-              type="text"
-              name="password"
-            />
-          </div>
-          <button className="login_btn" onClick={handleLogin}>
-            {" "}
-            Log in{" "}
-          </button>
+        <div className="navbar_right">
+          <Link to="/Signup">
+            <button className="navbar_signup">
+              <h4 className="buttonClass">SignUp</h4>
+            </button>
+          </Link>
         </div>
+        <div className="Login_container">
+          <h1 className="login_heading">
+            Unlimited movies, TV <br /> shows and more.
+          </h1>
+          <h2 className="login_text">Watch anywhere. Cancel anytime.</h2>
+        </div>
+        <div className="Login_input_container">
+          <input
+            className="Login_input"
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+            placeholder="Email address"
+            type="text"
+            name="UserName"
+          />
+        </div>
+        <div className="Login_input_container1">
+          <input
+            className="Login_input"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            type="text"
+            name="password"
+          />
+        </div>
+        <button className="login_btn" onClick={handleLogin}>
+          {" "}
+          Log in{" "}
+        </button>
+      </div>
     </>
   );
 };

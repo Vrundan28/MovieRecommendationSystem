@@ -16,18 +16,25 @@ class Movie(models.Model):
     movieRuntime = models.IntegerField()
     movieGenre = models.CharField(max_length=150, null=True)
     movieTagline = models.CharField(max_length=100, null=True)
-    movieRating = models.IntegerField(validators=[
-        MaxValueValidator(10),
-        MinValueValidator(1)
+    movieRating = models.FloatField(validators=[
+        MaxValueValidator(5.0),
+        MinValueValidator(0.0)
     ])
     movieUrl = models.CharField(max_length=1024, null=True)
     moviePoster = models.CharField(max_length=1024, null=True)
     likecount = models.IntegerField(default=0)
+    ratecount = models.IntegerField(default=0)
 
     def to_dict(self):
-        return {"movieTitle": self.movieTitle, "movieDescription": self.movieDescription, "movieKeywords": self.movieKeywords, "movieCast": self.movieCast, "movieDirector": self.movieDirector, "movieProduction": self.movieProduction, "movieRuntime": self.movieRuntime, "movieGenre": self.movieGenre, "movieTagline": self.movieTagline, "movieRating": self.movieRating, "movieUrl": self.movieUrl, "moviePoster": self.moviePoster, "likeCount": self.likecount}
+        return {"movieTitle": self.movieTitle, "movieDescription": self.movieDescription, "movieKeywords": self.movieKeywords, "movieCast": self.movieCast, "movieDirector": self.movieDirector, "movieProduction": self.movieProduction, "movieRuntime": self.movieRuntime, "movieGenre": self.movieGenre, "movieTagline": self.movieTagline, "movieRating": self.movieRating, "movieUrl": self.movieUrl, "moviePoster": self.moviePoster, "likeCount": self.likecount, "ratecount": self.ratecount}
 
 
 class Likes(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+
+
+class MovieRating(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    rating_by_user = models.IntegerField(default=0)
