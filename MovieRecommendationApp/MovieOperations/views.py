@@ -93,22 +93,22 @@ def GetMovie(request, id):
 
 
 def GetAllMovie(request):
-    if request.method == "GET":
-        movie = Movie.objects.all()
-        # movielist = []
-        # for m in movie:
-        #     movielist.append(m)
-        to_dict_objs = collections.defaultdict(list)
-        for i in range(0, len(movie)):
-            current_movie = movie[i]
-            # print(current_movie)
-            # print()
-            current_movie_dict = current_movie.to_dict()
-            current_movie_dict["movieId"] = current_movie.movieId
-            to_dict_objs["AllMovies"].append(current_movie_dict)
+    # if request.method == "GET":
+    movie = Movie.objects.all()
+    # movielist = []
+    # for m in movie:
+    #     movielist.append(m)
+    to_dict_objs = collections.defaultdict(list)
+    for i in range(0, len(movie)):
+        current_movie = movie[i]
+        # print(current_movie)
+        # print()
+        current_movie_dict = current_movie.to_dict()
+        current_movie_dict["movieId"] = current_movie.movieId
+        to_dict_objs["AllMovies"].append(current_movie_dict)
 
-        jsdata = json.dumps(to_dict_objs)
-        return JsonResponse(jsdata, safe=False)
+    jsdata = json.dumps(to_dict_objs)
+    return JsonResponse(jsdata, safe=False)
 
 
 @csrf_exempt

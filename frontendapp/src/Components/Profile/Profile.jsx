@@ -32,14 +32,14 @@ const Profile = () => {
       data_to_send.append("firstname", firstname);
       data_to_send.append("lastname", lastname);
       data_to_send.append("email", email);
-      console.log(profilePic);
+      // console.log(profilePic);
       data_to_send.append("profPicfile", profilePic);
       const update = await axios.post(
         `http://127.0.0.1:8000/accounts/updateProfile/${user.userId}/`,
         data_to_send
       );
-      console.log(update.data)
-    } catch (err) {}
+      // console.log(update.data)
+    } catch (err) { }
   };
   useEffect(() => {
     const fetchUser = async () => {
@@ -98,9 +98,15 @@ const Profile = () => {
           </div>
           <div className="userprofile_right_details">
             <div className="userprofile_content">
+              
               {!isEditing && (
                 <>
-                  <div className="userprofile_UserName">{username}</div>
+                  <div style={{display:"flex"}}>
+                    <div className="userprofile_UserName">{username}</div>
+                    <button onClick={handleEdit} className="Function_Buttons editbutton" style={{height:"4vh",marginTop:"3vw",marginLeft:"1.5vw"}}>
+                      <i class="fa-solid fa-pen-to-square"></i>Edit
+                    </button>
+                  </div>
                   <div className="userprofile_Name">
                     {firstname} {lastname}
                   </div>
@@ -109,7 +115,15 @@ const Profile = () => {
               )}
               {isEditing && (
                 <>
-                  <div className="userprofile_UserName">{username}</div>
+                  <div style={{display:"flex"}}>
+                    <div className="userprofile_UserName">{username}</div>
+                    <button
+                      onClick={completeEdit}
+                      className="Function_Buttons deletebutton" style={{height:"4vh",marginTop:"3vw",marginLeft:"1.5vw"}}
+                    >
+                      <i class="fa-solid fa-check"></i> Update
+                    </button>
+                  </div>
                   <input
                     className="inputfield userprofile_firstname_edit"
                     value={firstname}
@@ -126,25 +140,17 @@ const Profile = () => {
                   />
                 </>
               )}
+              
             </div>
+
           </div>
         </div>
-        {!isEditing && (
-          <button onClick={handleEdit} className="Function_Buttons editbutton">
-            <i class="fa-solid fa-pen-to-square"></i>Edit
-          </button>
-        )}
-        {isEditing && (
-          <button
-            onClick={completeEdit}
-            className="Function_Buttons deletebutton"
-          >
-            <i class="fa-solid fa-check"></i> Update
-          </button>
-        )}
-        {/* <span className="listTitle">Liked Movies of {curruser.first_name}</span> */}
-        <List genre_name={genre} movies={likedMovie} />
-        <Graph />
+
+        {genre && likedMovie && <span><List genre_name={genre} movies={likedMovie} /> </span> }
+        <div className="graph_container">
+          <h2 className="listTitle">Pie Chart for movies liked by you</h2>
+          <Graph />
+        </div>
       </div>
     </>
   );

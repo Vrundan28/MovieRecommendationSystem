@@ -15,6 +15,7 @@
   margin-top: 5vw;
 }
 
+
 .view_movie_poster {
   height: 35vh;
   width: 30vw;
@@ -83,14 +84,15 @@
   -webkit-box-shadow: 15px 14px 25px 1px rgba(0, 0, 0, 0.68);
   -moz-box-shadow: 15px 14px 25px 1px rgba(0, 0, 0, 0.68);
   box-shadow: 15px 14px 25px 1px rgba(0, 0, 0, 0.68);
-  margin: 3vh;
+  margin-left: 2vh;
+  margin-top: 3vh;
   display: flex;
 }
 .showmovie_left_details {
   flex: 6;
   border-top-left-radius: 3%;
   border-bottom-left-radius: 3%;
-  background-color: rgb(36, 35, 35);
+  /* background-color: rgb(36, 35, 35); */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -103,6 +105,18 @@
   border-top-right-radius: 3%;
   border-bottom-right-radius: 3%;
 }
+.showmovie_recommendations{
+  margin-left: 10%;
+  display: grid;
+  grid-template-columns: 13vw 13vw 13vw 13vw 13vw 13vw;
+  padding-bottom: 4%;
+}
+.showmovie_recommendations_heading{
+  color: white;
+  margin: 2%;
+  margin-left: 10%;
+}
+
 .showmovie_content {
   width: 97%;
   height: 98%;

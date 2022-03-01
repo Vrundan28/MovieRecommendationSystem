@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import List from "../List/List";
 import { Context } from "../../context/Context";
 import Dialog from "./Dialog";
+import ListItem from "../ListItem/ListItem";
 
 const ShowMovie = () => {
   const location = useLocation();
@@ -20,6 +21,7 @@ const ShowMovie = () => {
   const [moviePoster, setmoviePoster] = useState(
     "https://wallpapercave.com/wp/wp1816342.jpg"
   );
+  const [recommendMovie,setRecommendMovie] = useState([])
   const [deletePopUp, setdeletePopUp] = useState({
     isLoading: false,
   });
@@ -41,6 +43,7 @@ const ShowMovie = () => {
         console.log("Not Found");
       }
     };
+
     const checkIfLiked = async () => {
       const fetched = await axios.get(
         `http://127.0.0.1:8000/movieOperations/isLiked/${movieId}/${user.userId}/`
@@ -50,17 +53,32 @@ const ShowMovie = () => {
       console.log(json_data_liked["likeCount"]);
       setisLiked(json_data_liked["isLiked"]);
     };
+    const getRecommendations = async() => {
+      const fetched = await axios.get(
+        `http://127.0.0.1:8000/accounts/getrecommendations/${movieId}/`
+      );
+      let json_data_liked = JSON.parse(fetched.data);
+      setRecommendMovie(json_data_liked["recommend"]);
+    };
+
     fetchMovie();
     checkIfLiked();
+    getRecommendations();
   }, []);
+
+
   const handleClick = () => {
     window.location.replace(`/PlayMovie/${movieId}`);
   };
+
+
   const handleDeleteMovie = async () => {
     setdeletePopUp({
       isLoading: true,
     });
   };
+
+
   const deleteMovieAPICall = async () => {
     try {
       const fetch = await axios.delete(
@@ -68,6 +86,8 @@ const ShowMovie = () => {
       );
     } catch (err) {}
   };
+
+
   const deleteConfirmation = (choice) => {
     if (choice) {
       // Perform delete operation here
@@ -83,6 +103,8 @@ const ShowMovie = () => {
       });
     }
   };
+
+
   const handleLike = async () => {
     setLikecount(likeCount + 1);
     try {
@@ -98,6 +120,8 @@ const ShowMovie = () => {
       setisLiked(!isLiked);
     } catch (err) {}
   };
+
+
   const handleDislike = async () => {
     setLikecount(likeCount - 1);
     try {
@@ -113,7 +137,10 @@ const ShowMovie = () => {
       setisLiked(!isLiked);
     } catch (err) {}
   };
+  // console.log(recommendMovie)
+
   return (
+    <>
     <div className="showmovie_container">
       <div className="showmovie_left_details">
         <div className="showmovie_content">
@@ -157,6 +184,16 @@ const ShowMovie = () => {
       </div>
       {deletePopUp.isLoading && <Dialog onDialog={deleteConfirmation} />}
     </div>
+    <h2 className="showmovie_recommendations_heading">Similar Movies , </h2>
+    <div className="showmovie_recommendations">
+      
+      {recommendMovie && 
+        recommendMovie.map((m) => (
+          <ListItem movieId={m.movieId} moviePoster={m.moviePoster} />
+        )) 
+      }
+    </div>
+    </>
   );
 };
 
