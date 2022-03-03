@@ -2,6 +2,7 @@ from black import json
 from django.http import JsonResponse
 from django.shortcuts import render
 from MovieOperations.models import Movie, Likes
+from Accounts.models import userPreferences
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 from rest_framework.parsers import JSONParser
@@ -12,7 +13,7 @@ from MovieOperations.serializers import MovieSerializer, MovieEncoder
 from django.contrib import auth
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
-from Accounts.models import CustomUser
+from Accounts.models import CustomUser,userPreferences
 import pandas as pd
 import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer
@@ -61,16 +62,25 @@ def login(request):
     if request.method == "POST":
         username = request.POST["userName"]
         password = request.POST["password"]
-        currentuser = authenticate(username=username, password=password)
-        # print(type(currentuser))
-        cur_user = CustomUser.objects.get(user_id=currentuser.id)
-        print(cur_user)
-        cur_user_dict = cur_user.to_dict()
-        cur_user_json = json.dumps(cur_user_dict)
-        # print(cur_user_json)
-        if currentuser is not None:
-            return JsonResponse(cur_user_json, safe=False)
-        else:
+        try:
+            currentuser = authenticate(username=username, password=password)
+            
+            print(not currentuser)
+            if (not currentuser) :
+                return JsonResponse("Login Failed",safe=True)
+                
+            print("vrinda")
+            cur_user = CustomUser.objects.get(user_id=currentuser.id)
+            print(cur_user)
+            cur_user_dict = cur_user.to_dict()
+            cur_user_json = json.dumps(cur_user_dict)
+            # print(cur_user_json)
+            if currentuser is not None:
+                return JsonResponse(cur_user_json, safe=False)
+            else:
+                return JsonResponse("Login Failed", safe=False)
+        except:
+            print("vrinda")
             return JsonResponse("Login Failed", safe=False)
 
 
@@ -86,12 +96,16 @@ def signup(request):
             user = User.objects.get(username=username)
             return JsonResponse("User with this username already exists", safe=False)
         except User.DoesNotExist:
-            user = User.objects.create_user(
-                username=username, password=password, first_name=firstname, last_name=lastname, email=email)
-            customUser = CustomUser(user_id=user.id)
-            user.save()
-            customUser.save()
-            return JsonResponse("Signup Success", safe=False)
+            try:
+                user = User.objects.get(email=email)
+                return JsonResponse("User with this email already exists", safe=False)
+            except:
+                user = User.objects.create_user(
+                    username=username, password=password, first_name=firstname, last_name=lastname, email=email)
+                customUser = CustomUser(user_id=user.id)
+                user.save()
+                customUser.save()
+                return JsonResponse("Signup Success", safe=False)
 
 
 @csrf_exempt
@@ -146,6 +160,41 @@ def get_liked_movies_of_user(request, id):
     # print(data2)
     return JsonResponse(data2, safe=False)
 
+
+@csrf_exempt
+def getPreferences(request,id):
+    getPreferences = userPreferences.objects.filter(userId=id)
+    # print(getPreferences[0].genre1)
+    
+    tmpPreferences = []
+    tmpPreferences.append(getPreferences[0].genre1)
+    tmpPreferences.append(getPreferences[0].genre2)
+    tmpPreferences.append(getPreferences[0].genre3)
+    all_movies = Movie.objects.all()
+    according_to_genre = collections.defaultdict(list)
+    for i in range(0, len(all_movies)):
+        current_movie = all_movies[i]
+        # print(current_movie)
+        # print()
+        genres_in_movie = []    # Storing all genres of current movie in a list
+        current_movie_dict = current_movie.to_dict()
+        current_movie_dict["movieId"] = current_movie.movieId
+        if current_movie.movieGenre is not None:
+            genres_in_movie = nltk.word_tokenize(current_movie.movieGenre)
+        for j in range(0, len(genres_in_movie)):
+            according_to_genre[genres_in_movie[j]].append(current_movie_dict)
+        # print(current_movie_dict)
+    according_to_genre_modify = collections.defaultdict(list)
+    for i in tmpPreferences:
+        randArr = random.sample(range(0, len(according_to_genre[i])), min(
+            25, len(according_to_genre[i])))
+        # print(randArr)
+        for j in range(len(randArr)):
+            # print(according_to_genre[i][j])
+            according_to_genre_modify[i].append(according_to_genre[i][randArr[j]])
+    json_Data = json.dumps(according_to_genre_modify)
+    # print(json_Data)
+    return JsonResponse(json_Data, safe=False)
 
 @csrf_exempt
 def updateProfile(request, id):
@@ -224,10 +273,14 @@ def getRatios(request,id):
         r = lambda: random.randint(0,255)
         color = "%06x" % random.randint(0, 0xFFFFFF)
         # print(color)
+        num = ((value*100*1.0) / total_movie)
+        formatted_num = '{0:.2f}'.format(num)
+        print(type(formatted_num))
+        print(formatted_num)
         tmp = "#"+color
         data = {
             "title": key,
-            "value": (round(((value*1.0)/total_movie),4)* 100),
+            "value": float(formatted_num),
             "color":tmp
         }
         returnObj["movies"].append(data)
@@ -264,3 +317,19 @@ def getrecommendations(request,id):
     data2 = json.dumps(all_recommendation)
     # print(data2)
     return JsonResponse(data2, safe=False)
+
+
+@csrf_exempt
+def user_preferences(request,id):
+    if request.method == "POST":
+        genre1 = request.POST['genre1']
+        genre2 = request.POST['genre2']
+        genre3 = request.POST['genre3']
+        
+        userPreference = userPreferences(userId = id,genre1=genre1, genre2=genre2, genre3=genre3)
+        userPreference.save()
+        user = CustomUser.objects.get(id=id)
+        user.isFilled = False
+        user.save()
+        return JsonResponse("userPreferences uploaded", safe=False)
+

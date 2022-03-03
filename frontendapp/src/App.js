@@ -10,6 +10,8 @@ import SearchMovie from './Components/SearchMOvie/SearchMovie';
 import ShowMovie from './Components/ShowMovie/ShowMovie';
 import Recommendations from './Components/Recommendations/Recommendations';
 import Profile from './Components/Profile/Profile';
+import UserPreferences from './Components/UserPreferences/UserPreferences';
+
 
 const App = () => {
 
@@ -26,6 +28,7 @@ const App = () => {
           <Route path='/searchMovie' component={SearchMovie} />
           <Route path='/Recommendation' component={Recommendations} />
           <Route path='/Profile' component={Profile} />
+          <Route path='/UserPreferences' component={UserPreferences} />
         </Switch>
       </BrowserRouter>
       {/* <Home /> */}

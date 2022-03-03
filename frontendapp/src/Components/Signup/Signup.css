@@ -3,7 +3,8 @@
     height: 100%;
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: space-evenly;
     margin-top: 3vh;
     margin-bottom: 3%;
     opacity: 1;
@@ -62,12 +63,16 @@
     opacity: 1;
 }
 
+.toastContainer{
+    width: 35%;
+}
+
 .signup_container{
     position: absolute;
     top: 10%;
     right: 38%;
-    background-color: black;
-    opacity: 0.65;
+    background-color: rgba(0, 0, 0, 0.65);
+    /* opacity: 0.65; */
     height: 75vh;
     width: 25vw;
 }
