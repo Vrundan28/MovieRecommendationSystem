@@ -86,9 +86,10 @@ def DeleteMovie(request, id):
 def GetMovie(request, id):
     if request.method == "GET":
         movie = Movie.objects.get(movieId=id)
-        print(movie)
+        # print(movie)
         dict_movie = movie.to_dict()
         json_movie = json.dumps(dict_movie)
+        # print(json_movie)
         return JsonResponse(json_movie, safe=False)
 
 

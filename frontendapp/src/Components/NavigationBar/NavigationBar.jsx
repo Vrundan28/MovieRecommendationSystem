@@ -14,7 +14,7 @@ const NavigationBar = () => {
   return (
     // <nav>
     <>
-    <div className="navbar_container">
+    <div className="navigationbar_container">
         <Link to="/" className="linkClass navLink">
           <div className="logo">MOVIE</div>
         </Link>
