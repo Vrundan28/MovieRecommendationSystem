@@ -6,10 +6,12 @@ urlpatterns = [
     re_path(r'login/', views.login),
     re_path(r'signup/', views.signup),
     re_path(r'getUser/([0-9]+)', views.get_user),
-    re_path(r'getLikedMovie/([0-9]+)',views.getLikedMovie),
-    re_path(r'updateProfile/([0-9]+)',views.updateProfile),
-    re_path(r'getrecommendations/([0-9]+)',views.getrecommendations),
-    re_path(r'getRatios/([0-9]+)',views.getRatios),
-    re_path(r'userPreferences/([0-9]+)',views.user_preferences),
-    re_path(r'getPreferences/([0-9 ]+)',views.getPreferences)
+    re_path(r'getLikedMovie/([0-9]+)', views.getLikedMovie),
+    re_path(r'updateProfile/([0-9]+)', views.updateProfile),
+    re_path(r'getrecommendations/([0-9]+)', views.getrecommendations),
+    re_path(r'getRatios/([0-9]+)', views.getRatios),
+    re_path(r'userPreferences/([0-9]+)', views.user_preferences),
+    re_path(r'getPreferences/([0-9 ]+)', views.getPreferences),
+    re_path(r'getGenderRatio/', views.getGendersRatio),
+    re_path(r'getGenderCount/', views.getGenderCount)
 ]

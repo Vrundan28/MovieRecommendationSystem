@@ -32,14 +32,21 @@ const Profile = () => {
       data_to_send.append("firstname", firstname);
       data_to_send.append("lastname", lastname);
       data_to_send.append("email", email);
-      // console.log(profilePic);
       data_to_send.append("profPicfile", profilePic);
+      // console.log(profilePic);
+      let updated_bit = 0;
+      if (profilePic != null) {
+        updated_bit = 1;
+      }
+      data_to_send.append("updated_bit", updated_bit);
+
+      console.log(data_to_send);
       const update = await axios.post(
         `http://127.0.0.1:8000/accounts/updateProfile/${user.userId}/`,
         data_to_send
       );
       // console.log(update.data)
-    } catch (err) { }
+    } catch (err) {}
   };
   useEffect(() => {
     const fetchUser = async () => {
@@ -70,7 +77,7 @@ const Profile = () => {
     };
     fetchUser();
   }, []);
-  console.log(likedMovie);
+  // console.log(likedMovie);
   return (
     <>
       <NavigationBar />
@@ -98,12 +105,19 @@ const Profile = () => {
           </div>
           <div className="userprofile_right_details">
             <div className="userprofile_content">
-              
               {!isEditing && (
                 <>
-                  <div style={{display:"flex"}}>
+                  <div style={{ display: "flex" }}>
                     <div className="userprofile_UserName">{username}</div>
-                    <button onClick={handleEdit} className="Function_Buttons editbutton" style={{height:"4vh",marginTop:"3vw",marginLeft:"1.5vw"}}>
+                    <button
+                      onClick={handleEdit}
+                      className="Function_Buttons editbutton"
+                      style={{
+                        height: "4vh",
+                        marginTop: "3vw",
+                        marginLeft: "1.5vw",
+                      }}
+                    >
                       <i class="fa-solid fa-pen-to-square"></i>Edit
                     </button>
                   </div>
@@ -115,11 +129,16 @@ const Profile = () => {
               )}
               {isEditing && (
                 <>
-                  <div style={{display:"flex"}}>
+                  <div style={{ display: "flex" }}>
                     <div className="userprofile_UserName">{username}</div>
                     <button
                       onClick={completeEdit}
-                      className="Function_Buttons deletebutton" style={{height:"4vh",marginTop:"3vw",marginLeft:"1.5vw"}}
+                      className="Function_Buttons deletebutton"
+                      style={{
+                        height: "4vh",
+                        marginTop: "3vw",
+                        marginLeft: "1.5vw",
+                      }}
                     >
                       <i class="fa-solid fa-check"></i> Update
                     </button>
@@ -133,20 +152,24 @@ const Profile = () => {
                   <input
                     className="inputfield userprofile_lastname_edit"
                     value={lastname}
+                    onChange={(e) => setLastname(e.target.value)}
                   />
                   <input
+                    onChange={(e) => setEmail(e.target.value)}
                     className="inputfield userprofile_email_edit"
                     value={email}
                   />
                 </>
               )}
-              
             </div>
-
           </div>
         </div>
 
-        {genre && likedMovie && <span><List genre_name={genre} movies={likedMovie} /> </span> }
+        {genre && likedMovie && (
+          <span>
+            <List genre_name={genre} movies={likedMovie} />{" "}
+          </span>
+        )}
         <div className="graph_container">
           <h2 className="listTitle">Pie Chart for movies liked by you</h2>
           <Graph />

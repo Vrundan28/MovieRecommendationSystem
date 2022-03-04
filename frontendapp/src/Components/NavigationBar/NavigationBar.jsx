@@ -12,62 +12,57 @@ const NavigationBar = () => {
   };
 
   return (
-    // <nav>
-    <>
-    <div className="navigationbar_container">
-        <Link to="/" className="linkClass navLink">
-          <div className="logo">MOVIE</div>
-        </Link>
-        <ul>
-          {/* <li>
-            <a href="/">Home</a>
-          </li> */}
-          {user &&
-            <li>
-              <Link to="/SearchMovie" className="navLink1">
-                <i className="fa-solid fa-magnifying-glass"></i>
-              </Link>
-            </li>
-          }
-          {user &&
-            <li>
-              <Link className="linkClass navLink2" to="/Recommendation">
-                Recommendations
-              </Link>
-            </li>
-          }
-          {user && 
-            <li>
-              <Link className="linkClass navLink3" to="/Profile">
+    <nav>
+      <Link className="linkClass" to="/">
+        <div className="logo">MOVIE</div>
+      </Link>
+      <ul>
+        {user && (
+          <li>
+            <Link to="/SearchMovie" className="navlinks linkClass">
+              <i className="fa-solid fa-magnifying-glass"></i>
+            </Link>
+          </li>
+        )}
+        {
+          user && user.isSuperuser && 
+          <Link className="linkClass" to="/AddMovie">
+            <button className="nav_buttons">Add Movie</button>
+          </Link>
+        }
+        {user && !user.isSuperuser && (
+          <li className="navlinks">
+            <Link className="linkClass" to="/Recommendation">
+              Recommendations
+            </Link>
+          </li>
+        )}
+        <li>
+          {user && (
+            <li className="navlinks">
+              <Link className="linkClass" to="/Profile">
                 Profile
               </Link>
             </li>
-          }
-          {!user && (
-            <li>
-              <Link to="/Login">
-                <button className="nav_buttons navbutton">Login</button>
-              </Link>
-            </li>
           )}
-          {!user && (
-            <li>
-              <Link to="/Signup">
-                <button className="nav_buttons navbutton1">Signup</button>
-              </Link>
-            </li>
-          )}
-          {user && (
-            <li>
-              <button className="nav_buttons navbutton2" onClick={handleLogout}>
-                Logout
-              </button>
-            </li>
-          )}
-        </ul>
-      </div>
-    </>
-    // </nav>
+        </li>
+        {!user && (
+          <Link className="linkClass" to="/Login">
+            <button className="nav_buttons">Login</button>
+          </Link>
+        )}
+        {!user && (
+          <Link className="linkClass" to="/Signup">
+            <button className="nav_buttons">Signup</button>
+          </Link>
+        )}
+        {user && (
+          <button className="nav_buttons" onClick={handleLogout}>
+            Logout
+          </button>
+        )}
+      </ul>
+    </nav>
   );
 };
 

@@ -1,0 +1,57 @@
+.admin_container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.admin_greeting {
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 4vh;
+  width: auto;
+  font-size: 2rem;
+  /* background-color: aqua; */
+}
+.AdminPanel_analytics {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.genderchart_container {
+  margin-top: 3%;
+  width: 75vw;
+  color: white;
+  height: 60vh;
+  background-color: aliceblue;
+
+  border-radius: 2vw;
+  display: flex;
+  flex-direction: column;
+  -webkit-box-shadow: 10px 10px 15px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 10px 10px 15px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 10px 10px 15px 0px rgba(0, 0, 0, 0.75);
+}
+.analytic_heading {
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+  margin-top: 5px;
+}
+.charts_container {
+  display: flex;
+  justify-content: space-between;
+}
+.pie_chart_container {
+  flex: 5;
+  display: flex;
+  align-items: center;
+  height: 70%;
+  color: white;
+  justify-content: center;
+}
+.bar_chart_container {
+  flex: 5;
+}

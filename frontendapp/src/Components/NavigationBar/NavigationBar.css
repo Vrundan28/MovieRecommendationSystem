@@ -5,16 +5,17 @@
   box-sizing: border-box;
   font-family: "Open Sans", sans-serif;
 }
-/* nav {
+nav {
   display: flex;
-  background-color: rgb(34, 34, 34);
+  /* background-color: rgb(34, 34, 34); */
   height: 10vh;
   width: 100%;
   align-items: center;
   justify-content: space-between;
-  padding: 0 50px 0 100px;
-  flex-wrap: wrap;
-} */
+  /* padding: 0 50px 0 100px; */
+  /* flex-wrap: wrap; */
+  padding: 2%;
+}
 /* nav .logo {
   color: red;
   font-size: 2.5rem;
@@ -22,12 +23,13 @@
 .logo {
   color: red;
   font-size: 2.5rem;
+  margin-top: 4px;
 }
-/* nav ul {
+nav ul {
   display: flex;
   flex-wrap: wrap;
   list-style-type: none;
-} */
+}
 .navigationbar_container ul {
   display: flex;
   flex-wrap: wrap;
@@ -36,10 +38,11 @@
 /* nav ul li {
   margin: 5px 10px;
 } */
-.navigationbar_container ul li {
-  margin: 5px 10px;
+.navlinks {
+  margin-top: 4px;
+  margin-right: 10px;
 }
-/* nav ul li a {
+nav ul li a {
   text-decoration: none;
   font-size: 1.3rem;
   color: white;
@@ -49,7 +52,7 @@
   letter-spacing: 1px;
   border-bottom: 1.5px solid transparent;
   transition: all 0.3s ease;
-} */
+}
 .navigationbar_container ul li a {
   text-decoration: none;
   font-size: 1.3rem;
@@ -68,20 +71,20 @@
   justify-content: center;
   align-items: center;
   transition: all 0.3s ease;
-
+  width: 8vw;
   padding: 10px;
   color: white;
   cursor: pointer;
   background-color: rgb(245, 70, 70);
-  width: 85px;
+  /* width: 85px; */
   border-radius: 3%;
   border: none;
   margin-left: 10px;
 }
-/* nav ul li a:hover {
+nav ul li a:hover {
   border-color: red;
   color: red;
-} */
+}
 .navigationbar_container ul li a:hover {
   border-color: red;
   color: red;
@@ -91,45 +94,45 @@
   color: rgb(251, 84, 84);
 }
 
-.navigationbar_container{
+.navigationbar_container {
   position: absolute;
   top: 2%;
   left: 2%;
 }
-.navLink{
+.navLink {
   position: absolute;
   top: 1%;
   left: 2vw;
 }
-.navLink1{
+.navLink1 {
   position: absolute;
   top: 2%;
   left: 82.5vw;
 }
 
-.navLink2{
+.navLink2 {
   position: absolute;
   top: 2%;
   left: 68vw;
 }
 
-.navLink3{
+.navLink3 {
   position: absolute;
   top: 2%;
   left: 61vw;
 }
-.navbutton{
+.navbutton {
   position: absolute;
   top: 2%;
   left: 83vw;
 }
 
-.navbutton1{
+.navbutton1 {
   position: absolute;
   top: 2%;
   left: 90vw;
 }
-.navbutton2{
+.navbutton2 {
   position: absolute;
   top: 50%;
   left: 86vw;

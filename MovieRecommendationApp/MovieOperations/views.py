@@ -1,3 +1,4 @@
+import re
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import default_storage
@@ -91,6 +92,39 @@ def GetMovie(request, id):
         json_movie = json.dumps(dict_movie)
         # print(json_movie)
         return JsonResponse(json_movie, safe=False)
+
+
+@csrf_exempt
+def updateMovie(request, movieId):
+
+    if request.method == "POST":
+        # Fetch the movie from database
+        movie = Movie.objects.get(movieId=movieId)
+        # print(request.POST.get('updated_bit'))
+        if int(request.POST.get('updated_bit')) == int(1):
+            print('INSIDE POST UPDATEED BIT')
+            movie_poster = request.FILES['moviePoster']
+            rand = random.getrandbits(64)
+            random_num = str(rand)
+            movieposterurl = 'http://127.0.0.1:8000/media/' + \
+                request.POST.get('movieTitle')+random_num
+            movie.moviePoster = movieposterurl
+            res = default_storage.save(
+                request.POST.get('movieTitle')+random_num, movie_poster)
+            # movie.moviePoster =
+        movie.movieTitle = request.POST.get('movieTitle')
+        movie.movieDescription = request.POST.get('movieDescription')
+        movie.movieCast = request.POST.get('movieCast')
+        movie.movieRuntime = request.POST.get('movieRuntime')
+        movie.movieKeywords = request.POST.get('movieKeywords')
+        movie.movieDirector = request.POST.get('movieDirector')
+        movie.movieProduction = request.POST.get('movieProduction')
+        movie.movieTagline = request.POST.get('movieTagline')
+        movie.save()
+
+        movie_dict = movie.to_dict()
+        movie_json_data = json.dumps(movie_dict)
+        return JsonResponse(movie_json_data, safe=False)
 
 
 def GetAllMovie(request):

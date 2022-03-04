@@ -1,0 +1,55 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&display=swap");
+.editmovie_container {
+  height: 80vh;
+  width: 100vw;
+  display: flex;
+}
+.editmovie_left_poster {
+  /* background-color: blue; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 4;
+}
+.editmovie_left_poster img {
+  -webkit-box-shadow: 11px 10px 15px -2px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 11px 10px 15px -2px rgba(0, 0, 0, 0.75);
+  box-shadow: 11px 10px 15px -2px rgba(0, 0, 0, 0.75);
+  border-top-right-radius: 2%;
+  border-bottom-right-radius: 2%;
+}
+.editmovie_right_info {
+  /* background-color: red; */
+  flex: 6;
+  display: flex;
+  align-items: center;
+  font-family: "Raleway", sans-serif;
+  justify-content: center;
+}
+.inputfield {
+  color: white;
+  background-color: transparent;
+  border: none;
+  /* width: min-content; */
+  margin-top: 20px;
+  font-size: 1.2rem;
+  border-bottom: 1px solid rgb(199, 199, 199);
+}
+.editmovie_cameraicon {
+  color: white;
+  font-size: 1.5rem;
+  margin-top: 10px;
+}
+.editmovie_info_container {
+  /* background-color: white; */
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  /* padding-left: 3%; */
+  height: 90%;
+}
+.updatebutton {
+  width: 10vw;
+  margin-top: 2%;
+  background-color: rgb(41, 194, 41);
+}

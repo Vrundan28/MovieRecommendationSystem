@@ -1,6 +1,6 @@
 .home {
   overflow: hidden;
-  display : flex;
-  flex-direction:column;
-  margin: 4%;
+  display: flex;
+  flex-direction: column;
+  /* margin: 4%; */
 }
