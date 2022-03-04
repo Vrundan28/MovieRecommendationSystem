@@ -11,6 +11,8 @@ import ShowMovie from './Components/ShowMovie/ShowMovie';
 import Recommendations from './Components/Recommendations/Recommendations';
 import Profile from './Components/Profile/Profile';
 import UserPreferences from './Components/UserPreferences/UserPreferences';
+import EditMovie from './Components/EditMovie/EditMovie';
+import AdminPanel from './Components/AdminPanel/AdminPanel';
 
 
 const App = () => {
@@ -28,6 +30,8 @@ const App = () => {
           <Route path='/searchMovie' component={SearchMovie} />
           <Route path='/Recommendation' component={Recommendations} />
           <Route path='/Profile' component={Profile} />
+          <Route path='/EditMovie/:movieId' component={EditMovie} />
+          <Route path='/AdminPanel' component={AdminPanel} />
           <Route path='/UserPreferences' component={UserPreferences} />
         </Switch>
       </BrowserRouter>

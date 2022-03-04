@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import List from "../List/List";
 import { Context } from "../../context/Context";
 import Dialog from "./Dialog";
+import { Link } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import ListItem from "../ListItem/ListItem";
 
@@ -35,6 +36,8 @@ const ShowMovie = () => {
   const [hasRated, sethasRated] = useState(false);
   const [movieRating, setmovieRating] = useState(0.0);
   const [completedRating, setCompletedRating] = useState(false);
+  const [isEditing, setisEditing] = useState(false);
+
   // Use Effects
   useEffect(() => {
     sethasRated(rating > 0 ? true : false);
@@ -81,7 +84,7 @@ const ShowMovie = () => {
     fetchMovie();
     checkIfLiked();
     getRecommendations();
-  }, []);
+  }, [movieId]);
 
   const handleClick = () => {
     window.location.replace(`/PlayMovie/${movieId}`);
@@ -226,9 +229,11 @@ const ShowMovie = () => {
             <div className="showmovie_description">{movieDescription}</div>
             {user && user.isSuperuser && (
               <div className="showmovie_admin_options">
-                <button className="Function_Buttons editbutton">
-                  <i class="showmovie_icon fa-solid fa-pen-to-square"></i>Edit
-                </button>
+                <Link to={`/EditMovie/` + movieId}>
+                  <button className="Function_Buttons editbutton">
+                    <i class="showmovie_icon fa-solid fa-pen-to-square"></i>Edit
+                  </button>
+                </Link>
                 <button
                   onClick={handleDeleteMovie}
                   className="Function_Buttons deletebutton"
@@ -246,13 +251,11 @@ const ShowMovie = () => {
       </div>
       <h2 className="showmovie_recommendations_heading">Similar Movies , </h2>
       <div className="showmovie_recommendations">
-      
-      {recommendMovie && 
-        recommendMovie.map((m) => (
-          <ListItem movieId={m.movieId} moviePoster={m.moviePoster} />
-        )) 
-      }
-    </div>
+        {recommendMovie &&
+          recommendMovie.map((m) => (
+            <ListItem movieId={m.movieId} moviePoster={m.moviePoster} />
+          ))}
+      </div>
     </>
   );
 };

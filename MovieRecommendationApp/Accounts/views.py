@@ -13,7 +13,7 @@ from MovieOperations.serializers import MovieSerializer, MovieEncoder
 from django.contrib import auth
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
-from Accounts.models import CustomUser,userPreferences
+from Accounts.models import CustomUser, userPreferences
 import pandas as pd
 import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer
@@ -64,11 +64,11 @@ def login(request):
         password = request.POST["password"]
         try:
             currentuser = authenticate(username=username, password=password)
-            
+
             print(not currentuser)
-            if (not currentuser) :
-                return JsonResponse("Login Failed",safe=True)
-                
+            if (not currentuser):
+                return JsonResponse("Login Failed", safe=True)
+
             print("vrinda")
             cur_user = CustomUser.objects.get(user_id=currentuser.id)
             print(cur_user)
@@ -162,10 +162,10 @@ def get_liked_movies_of_user(request, id):
 
 
 @csrf_exempt
-def getPreferences(request,id):
+def getPreferences(request, id):
     getPreferences = userPreferences.objects.filter(userId=id)
     # print(getPreferences[0].genre1)
-    
+
     tmpPreferences = []
     tmpPreferences.append(getPreferences[0].genre1)
     tmpPreferences.append(getPreferences[0].genre2)
@@ -191,10 +191,12 @@ def getPreferences(request,id):
         # print(randArr)
         for j in range(len(randArr)):
             # print(according_to_genre[i][j])
-            according_to_genre_modify[i].append(according_to_genre[i][randArr[j]])
+            according_to_genre_modify[i].append(
+                according_to_genre[i][randArr[j]])
     json_Data = json.dumps(according_to_genre_modify)
     # print(json_Data)
     return JsonResponse(json_Data, safe=False)
+
 
 @csrf_exempt
 def updateProfile(request, id):
@@ -204,30 +206,37 @@ def updateProfile(request, id):
         user = CustomUser.objects.get(id=id)
 
         # Extract profile picture image from incoming form data
-        propic = request.FILES['profPicfile']
+
+        if int(request.POST.get('updated_bit')) == int(1):
+            propic = request.FILES['profPicfile']
 
         # If user has updated his/her profile picture it will not be null
-        if propic is not None:
-            # Generate a random number of 64bits
-            rand = random.getrandbits(64)
-            random_num = str(rand)  
+            if propic is not None:
+                # Generate a random number of 64bits
+                rand = random.getrandbits(64)
+                random_num = str(rand)
 
-            # Generate a url in which initial part is url of backend server's media folder and latter part is username and appending the randomly generated number                         
-            # Assign the profileurl to user's profilepic field in database
-            profileurl = 'http://127.0.0.1:8000/media/'+user.user.username+random_num
-            user.profilepic = profileurl    
+                # Generate a url in which initial part is url of backend server's media folder and latter part is username and appending the randomly generated number
+                # Assign the profileurl to user's profilepic field in database
+                profileurl = 'http://127.0.0.1:8000/media/'+user.user.username+random_num
+                user.profilepic = profileurl
 
-            # Store the image into backend's media folder
-            res = default_storage.save(user.user.username+random_num, propic)
+                # Store the image into backend's media folder
+                res = default_storage.save(
+                    user.user.username+random_num, propic)
+    # Update other fields as well
+    print(request.POST['firstname'])
+    print(request.POST['lastname'])
 
-        # Update other fields as well     
-        user.user.first_name = request.POST.get('firstname')
-        user.user.last_name = request.POST.get('lastname')
-        user.user.email = request.POST.get('email')
+    user.user.first_name = request.POST['firstname']
+    user.user.last_name = request.POST['lastname']
+    user.user.email = request.POST['email']
 
-        # Save the updated user
-        user.save()
+    # Save the updated user
+    user.user.save()
+    user.save()
     return JsonResponse("user successfully updated", safe=False)
+
 
 @csrf_exempt
 def getLikedMovie(request, id):
@@ -246,31 +255,33 @@ def getLikedMovie(request, id):
     # print(data2)
     return JsonResponse(data2, safe=False)
 
+
 @csrf_exempt
-def getRatios(request,id):
+def getRatios(request, id):
     liked_movies = Likes.objects.filter(user_id=id)
-    obj = [] # all liked movies stored here
+    obj = []  # all liked movies stored here
     for movie in liked_movies:
         obj.append(movie.movie)
-    all_recommendation = collections.defaultdict(int) # count of movies based on genre
-    total_movie = 0 # total movie count 
+    all_recommendation = collections.defaultdict(
+        int)  # count of movies based on genre
+    total_movie = 0  # total movie count
     for obj1 in obj:
         tmpobj = obj1.to_dict()
         genres_in_movie = []    # Storing all genres of current movie in a list
         if obj1.movieGenre is not None:
             genres_in_movie = nltk.word_tokenize(obj1.movieGenre)
-        cnt=0
+        cnt = 0
         # movie added in genre and counting number of genre
         for j in range(0, len(genres_in_movie)):
-            all_recommendation[genres_in_movie[j]]+=1
-            cnt+=1
+            all_recommendation[genres_in_movie[j]] += 1
+            cnt += 1
 
         total_movie += cnt
     returnObj = collections.defaultdict(list)
 
     # creating data items for graph (contains title,value,color)
-    for key,value in all_recommendation.items():
-        r = lambda: random.randint(0,255)
+    for key, value in all_recommendation.items():
+        def r(): return random.randint(0, 255)
         color = "%06x" % random.randint(0, 0xFFFFFF)
         # print(color)
         num = ((value*100*1.0) / total_movie)
@@ -281,7 +292,7 @@ def getRatios(request,id):
         data = {
             "title": key,
             "value": float(formatted_num),
-            "color":tmp
+            "color": tmp
         }
         returnObj["movies"].append(data)
     data2 = json.dumps(returnObj)
@@ -289,13 +300,13 @@ def getRatios(request,id):
     return JsonResponse(data2, safe=False)
 
 
-def getrecommendations(request,id):
-    movie = Movie.objects.get(movieId = id)
+def getrecommendations(request, id):
+    movie = Movie.objects.get(movieId=id)
     # print(movie)
     current_movie = movie.movieTitle
     recommended_movie_tuples = getRecommendations(current_movie)
     # print(recommended_movie_tuples)
-    cnt=0
+    cnt = 0
     all_recommendation = collections.defaultdict(list)
     recommendations_for_current_movie = []
     for recommended_movie in recommended_movie_tuples:
@@ -320,16 +331,52 @@ def getrecommendations(request,id):
 
 
 @csrf_exempt
-def user_preferences(request,id):
+def user_preferences(request, id):
     if request.method == "POST":
         genre1 = request.POST['genre1']
         genre2 = request.POST['genre2']
         genre3 = request.POST['genre3']
-        
-        userPreference = userPreferences(userId = id,genre1=genre1, genre2=genre2, genre3=genre3)
+
+        userPreference = userPreferences(
+            userId=id, genre1=genre1, genre2=genre2, genre3=genre3)
         userPreference.save()
         user = CustomUser.objects.get(id=id)
         user.isFilled = False
         user.save()
         return JsonResponse("userPreferences uploaded", safe=False)
 
+
+@csrf_exempt
+def getGendersRatio(request):
+
+    all_males = CustomUser.objects.filter(gender="Male")
+    all_females = CustomUser.objects.filter(gender="Female")
+
+    total_males = all_males.count()
+    total_females = all_females.count()
+    total_users = total_males+total_females
+    # ratio={}
+    male_percent = total_males * 100/total_users
+    female_percent = total_females*100/total_users
+    male_dict = {'x': "Male", 'y': male_percent}
+    female_dict = {'x': "Female", 'y': female_percent}
+    ratio = []
+    ratio.append(male_dict)
+    ratio.append(female_dict)
+    json_data = json.dumps(ratio)
+    return JsonResponse(json_data, safe=False)
+
+
+@csrf_exempt
+def getGenderCount(request):
+
+    all_males = CustomUser.objects.filter(gender="Male").count()
+    all_females = CustomUser.objects.filter(gender="Female").count()
+
+    gendercount = []
+    male_dict = {'name': 'Male', 'value': all_males}
+    female_dict = {'name': 'female', 'value': all_females}
+    gendercount.append(male_dict)
+    gendercount.append(female_dict)
+    json_data = json.dumps(gendercount)
+    return JsonResponse(json_data, safe=False)

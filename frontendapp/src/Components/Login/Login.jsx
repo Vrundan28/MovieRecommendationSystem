@@ -5,8 +5,8 @@ import { Context } from "../../context/Context";
 import { Link } from "react-router-dom";
 // import Navbar from "../Navbar/Navbar"
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const { user, dispatch } = useContext(Context);
@@ -25,10 +25,9 @@ const Login = () => {
         data
       );
 
-      console.log(data1)
-      if (data1.data === "Login Failed") 
-      {
-        toast.error('Incorrect Credentials', {
+      console.log(data1);
+      if (data1.data === "Login Failed") {
+        toast.error("Incorrect Credentials", {
           position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
@@ -36,19 +35,15 @@ const Login = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-      });
-      }
-      else
-      {
-        console.log(data1.data)
+        });
+      } else {
+        console.log(data1.data);
         let json_user = JSON.parse(data1.data);
         dispatch({ type: "LOGIN", payload: json_user });
-        console.log(json_user.isFilled,typeof(json_user.isFilled))
-        if(json_user.isFilled)
-          window.location.href = "/UserPreferences";
-        else
-          window.location.href = "/";
-
+        console.log(json_user.isFilled, typeof json_user.isFilled);
+        if (json_user.isSuperuser) window.location.href = "/AdminPanel";
+        else if (json_user.isFilled) window.location.href = "/UserPreferences";
+        else window.location.href = "/";
       }
     } catch (err) {
       console.log("Not found");
@@ -57,9 +52,7 @@ const Login = () => {
   // console.log(user);
   return (
     <>
-        <img
-          className="login_background_image"
-        />
+      <img className="login_background_image" />
       {/* <Navbar /> */}
 
       <div className="navbar_container">
@@ -105,12 +98,8 @@ const Login = () => {
               required
             />
           </div>
-          <button className="login_btn">
-            {" "}
-            Log in{" "}
-          </button>
+          <button className="login_btn"> Log in </button>
         </form>
-      
       </div>
     </>
   );
