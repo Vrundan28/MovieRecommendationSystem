@@ -1,6 +1,7 @@
 import React,{useState} from 'react';
 import './AddMovie.css';
 import axios from 'axios';
+import NavigationBar from '../NavigationBar/NavigationBar';
 
 const AddMovie = () => {
   const [movie_title,set_movie_title]=useState("")
@@ -48,9 +49,10 @@ const AddMovie = () => {
     <div className='container'>
         <img className='addmovie_background_image' src='"../../../public/images/Project2.png"' />
     </div>
-    <div className='navbar_left'>
+    <NavigationBar />
+    {/* <div className='navbar_left'>
         <h3 className='navbar_title'>MOVIE</h3>
-    </div>
+    </div> */}
     <div className='addmovie_container'>
       <h1 className='addmovie_heading'>AddMovie</h1>
       <form className="createMovie" enctype="multipart/form-data" onSubmit={(e) => handleMovieUpload(e)}>

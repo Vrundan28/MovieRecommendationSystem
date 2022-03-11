@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Tooltip } from "@mui/material";
 import "./EditMovie.css";
+import { FaWindowRestore } from "react-icons/fa";
 const EditMovie = () => {
   // Fetching movieId from url
   const location = useLocation();
@@ -67,6 +68,7 @@ const EditMovie = () => {
         `http://127.0.0.1:8000/movieOperations/updateMovie/${movieId}/`,
         updateddata
       );
+      window.location.href = `/ViewMovie/${movieId}`
     } catch (err) {}
   };
 

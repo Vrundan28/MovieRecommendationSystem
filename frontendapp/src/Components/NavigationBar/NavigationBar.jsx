@@ -24,12 +24,12 @@ const NavigationBar = () => {
             </Link>
           </li>
         )}
-        {
+        {/* {
           user && user.isSuperuser && 
           <Link className="linkClass" to="/AddMovie">
             <button className="nav_buttons">Add Movie</button>
           </Link>
-        }
+        } */}
         {user && !user.isSuperuser && (
           <li className="navlinks">
             <Link className="linkClass" to="/Recommendation">
@@ -46,6 +46,30 @@ const NavigationBar = () => {
             </li>
           )}
         </li>
+        <li>
+          {user && user.isSuperuser && (
+            <li className="navlinks">
+              <Link className="linkClass" to="/adminPanel">
+                Admin Panel
+              </Link>
+            </li>
+          )}
+        </li>
+        <li>
+          {user && !user.isSuperuser && (
+            <li className="navlinks">
+              <Link className="linkClass" to="/getRecommendations1">
+                get Recommendations1
+              </Link>
+            </li>
+          )}
+        </li>
+        {
+          user && user.isSuperuser && 
+          <Link className="linkClass" to="/AddMovie">
+            <button className="nav_buttons">Add Movie</button>
+          </Link>
+        }
         {!user && (
           <Link className="linkClass" to="/Login">
             <button className="nav_buttons">Login</button>

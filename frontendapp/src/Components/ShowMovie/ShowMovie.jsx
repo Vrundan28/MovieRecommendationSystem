@@ -8,6 +8,7 @@ import Dialog from "./Dialog";
 import { Link } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import ListItem from "../ListItem/ListItem";
+import NavigationBar from "../NavigationBar/NavigationBar";
 
 const ShowMovie = () => {
   // Fetching movieId from url
@@ -84,6 +85,7 @@ const ShowMovie = () => {
     fetchMovie();
     checkIfLiked();
     getRecommendations();
+    setRating(0)
   }, [movieId]);
 
   const handleClick = () => {
@@ -167,6 +169,7 @@ const ShowMovie = () => {
 
   return (
     <>
+      <NavigationBar />
       <div className="showmovie_container">
         <div className="showmovie_left_details">
           <div className="showmovie_content">
@@ -191,7 +194,7 @@ const ShowMovie = () => {
               )}
             </div>
             <div className="showmovie_stars">
-              {[...Array(5)].map((star, i) => {
+              {user && [...Array(5)].map((star, i) => {
                 const ratingval = i + 1; // To start counting from 1,default i is 0
                 return (
                   <label>

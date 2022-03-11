@@ -15,6 +15,9 @@ from black import json
 from datetime import datetime
 import nltk
 import collections
+from scipy import sparse
+from sklearn.metrics.pairwise import cosine_similarity
+import pandas as pd
 nltk.download('punkt')
 
 # Create your views here.
@@ -47,7 +50,7 @@ def UploadMovie(request):
         x = len(x)
         tmp_movie = [x, movieTitle, movieDescription, movieKeyword, movieCast, movieDirector,
                      movieProduction, movieRuntime, movieGenre, movieTagline, movieRating]
-        filename = str(settings.BASE_DIR)+"\\tmp_dataset.csv"
+        filename = str(settings.BASE_DIR)+"\\today1_dataset.csv"
         with open(filename, 'a') as csvfile:
             writer_object = writer(csvfile)
             writer_object.writerow(tmp_movie)
@@ -147,6 +150,90 @@ def GetAllMovie(request):
 
 
 @csrf_exempt
+def getCollab(request,userId):
+    dataset = pd.read_csv(str(settings.BASE_DIR) +'\\tmp1_dataset.csv', encoding="utf-8")    
+    
+    def standardize(row):
+        # print(row.mean())
+        if row.max() == 0:
+            return row
+        new_row = (row-row.mean())/(row.max()-row.min())
+        return new_row
+
+
+    dataset_std = dataset.apply(standardize)
+    item_similarity = cosine_similarity(dataset_std.T)
+    item_similarity_df = pd.DataFrame(item_similarity)
+    liked_movies = Likes.objects.filter(user_id=userId)
+    movieArr = []
+    # print(item_similarity_df)
+    def get_similar_movie(movie_id,user_rating):
+        similar_score = item_similarity_df.loc[movie_id]*user_rating
+        similar_score = similar_score.sort_values(ascending=False)
+        return similar_score
+
+    for i in range(0,len(liked_movies)):
+        movieArr.append(liked_movies[i].movie.movieId)
+    similar_movies = pd.DataFrame()
+    for movie in movieArr:
+        similar_movies = similar_movies.append(get_similar_movie(movie,10))
+    # print(similar_movies)
+    ans = similar_movies.sum().sort_values(ascending=False)
+    # print(ans)
+    to_dict_objs = collections.defaultdict(int)
+    for x in ans:
+        # print(x)
+        if(x == 0.0):
+            break
+        to_dict_objs[x] += 1
+        
+    # print(to_dict_objs)
+    # for key,val in to_dict_objs.values():
+    #     print(key,val)
+    arr = []
+    for x in to_dict_objs:
+        cnt=0
+        while to_dict_objs[x] > 0:
+            if(movieArr.count(ans[ans == x].index[cnt]) == 0):
+                arr.append(ans[ans == x].index[cnt])
+            to_dict_objs[x]-=1
+            cnt+=1
+            if(len(arr) == 25):
+                break
+    print(arr)
+    # print(similar_movies.sum().sort_values(ascending=False))
+    # print(ans)
+    # print(type(ans))
+    movies=[]
+    for i in range(0,len(arr)):
+        movie = Movie.objects.filter(movieId = arr[i])
+        if(len(movie) != 0):
+            print(movie[0])
+            movies.append(movie[0])
+    # print(movies)
+    to_dict_objs1 = collections.defaultdict(list)
+    for i in range(0, len(movies)):
+        current_movie = movies[i]
+        print(current_movie)
+        # print()
+        current_movie_dict = current_movie.to_dict()
+        current_movie_dict["movieId"] = current_movie.movieId
+        to_dict_objs1["AllMovies"].append(current_movie_dict)
+    # print(type(movieArr))
+    # for row in ans:
+    #     print(x)
+    #     if(movieArr.count(row[0])):
+    #         continue
+    #     elif(row[1] == 0.0):
+    #         break
+    #     elif(len(ans1) == 20):
+    #         break
+    #     else:
+    #         ans1.append(row[0])
+    jsdata = json.dumps(to_dict_objs1)
+    return JsonResponse(jsdata, safe=False)
+
+@csrf_exempt
 def LikeMovie(request):
     # print("Here")
     if request.method == "POST":
@@ -160,6 +247,18 @@ def LikeMovie(request):
         liked_movie = Likes(user=user, movie=movie)
         liked_movie.save()
         # print('In liked Movie')
+
+        dataset = pd.read_csv('C:\\Users\\17323\Desktop\Vrundan\SDP Project\MovieRecommendationApp\\tmp1_dataset.csv', encoding="utf-8")
+        # print(dataset.columns.tolist())
+        # print(dataset.columns.tolist())
+        df = pd.DataFrame(dataset)
+        print(df)
+        # print(userId)
+        # print(movieId)
+        print(df.iloc[userId-1].loc[movieId])
+        df.iloc[userId-1].loc[movieId] = 10
+        print(df.iloc[userId-1].loc[movieId])
+        df.to_csv('C:\\Users\\17323\Desktop\Vrundan\SDP Project\MovieRecommendationApp\\tmp1_dataset.csv',mode = 'w', index=False)
         return JsonResponse("Liked Successfully", safe=False)
 
 
@@ -171,13 +270,21 @@ def DislikeMovie(request):
         userId = data["userId"]
         print('In dislike Movie')
         # print(movieId)
-        # print(userId)
+        # print(userId) 
         user = CustomUser.objects.get(id=userId)
         movie = Movie.objects.get(movieId=movieId)
         liked_movie = Likes.objects.filter(user_id=user, movie_id=movie)
         movie.likecount = movie.likecount-1
         movie.save()
         liked_movie.delete()
+        # print(dataset.columns.tolist())
+        dataset = pd.read_csv(str(settings.BASE_DIR) +'\\tmp1_dataset.csv', encoding="utf-8")
+        # print(dataset.columns.tolist())
+        df = pd.DataFrame(dataset)
+        # print(df.iloc[userId].loc[movieId])
+        df.iloc[userId-1].loc[movieId] = 0
+        
+        df.to_csv('C:\\Users\\17323\Desktop\Vrundan\SDP Project\MovieRecommendationApp\\tmp1_dataset.csv',mode = 'w', index=False)
     return JsonResponse("Deleted", safe=False)
 
 

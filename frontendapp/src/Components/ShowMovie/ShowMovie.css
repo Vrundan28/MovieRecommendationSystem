@@ -84,6 +84,7 @@
   -moz-box-shadow: 15px 14px 25px 1px rgba(0, 0, 0, 0.68);
   box-shadow: 15px 14px 25px 1px rgba(0, 0, 0, 0.68);
   display: flex;
+  margin-top: 2%;
 }
 .showmovie_stars {
   margin-top: 2vh;
