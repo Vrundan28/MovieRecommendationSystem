@@ -63,10 +63,10 @@ for i, j in df.iterrows():
     # data_tuple=(movieTitle,movieDescription,movieKeywords,movieCast,movieDirector,movieProduction,movieRuntime,movieGenre,movieTagline,movieRating,moviePoster)
     # cursor.execute(insert_query,data_tuple)
 
-    update_query = """Update MovieOperations_movie SET movieUrl = ? where movieId = ? """
-    movieUrl = "default_video.mp4"
+    update_query = """Update MovieOperations_movie SET ratecount = ? where movieId = ? """
+    movieRating = 1
     movieId = j['movieId']
-    data_tuple = (movieUrl, movieId)
+    data_tuple = (movieRating, movieId)
     cursor.execute(update_query, data_tuple)
 
 conn.commit()

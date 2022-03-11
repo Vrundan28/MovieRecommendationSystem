@@ -15,5 +15,5 @@ urlpatterns = [
     re_path(r'Get_All_Genre_Movie', views.get_movies_of_all_genre),
     re_path(r'isLiked/([0-9]+)/([0-9]+)', views.isLiked),
     re_path(r'rateMovie/([0-9]+)/([0-9]+)', views.rateMovie),
-
+    re_path(r'getCollab/([0-9]+)',views.getCollab),
 ]

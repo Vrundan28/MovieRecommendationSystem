@@ -41,8 +41,7 @@ const Login = () => {
         let json_user = JSON.parse(data1.data);
         dispatch({ type: "LOGIN", payload: json_user });
         console.log(json_user.isFilled, typeof json_user.isFilled);
-        if (json_user.isSuperuser) window.location.href = "/AdminPanel";
-        else if (json_user.isFilled) window.location.href = "/UserPreferences";
+        if (json_user.isFilled) window.location.href = "/UserPreferences";
         else window.location.href = "/";
       }
     } catch (err) {
@@ -93,7 +92,7 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
-              type="text"
+              type="password"
               name="password"
               required
             />

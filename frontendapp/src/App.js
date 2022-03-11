@@ -13,7 +13,7 @@ import Profile from './Components/Profile/Profile';
 import UserPreferences from './Components/UserPreferences/UserPreferences';
 import EditMovie from './Components/EditMovie/EditMovie';
 import AdminPanel from './Components/AdminPanel/AdminPanel';
-
+import Getrecommendations1 from './Components/getRecommendations1/Getrecommendations1'
 
 const App = () => {
 
@@ -33,6 +33,7 @@ const App = () => {
           <Route path='/EditMovie/:movieId' component={EditMovie} />
           <Route path='/AdminPanel' component={AdminPanel} />
           <Route path='/UserPreferences' component={UserPreferences} />
+          <Route path='/getRecommendations1' component={Getrecommendations1} />
         </Switch>
       </BrowserRouter>
       {/* <Home /> */}

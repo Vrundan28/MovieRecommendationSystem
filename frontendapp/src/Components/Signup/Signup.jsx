@@ -123,10 +123,10 @@ const Signup = () => {
                         <input className="signup_input" value={userName} onChange={(e) => setUserName(e.target.value)} type="text" name="Username" placeholder='Username' required/>
                     </div>
                     <div className="signup_form_field">
-                        <input className="signup_input" value={password} onChange={(e) => setPassword(e.target.value)} type="text" name="password" placeholder='Password' required/>
+                        <input className="signup_input" value={password} onChange={(e) => setPassword(e.target.value)} type="password" name="password" placeholder='Password' required/>
                     </div>
                     <div className="signup_form_field">
-                        <input className="signup_input" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} type="text" name="Confirm Password" placeholder='Confirm Password' required/>
+                        <input className="signup_input" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} type="password" name="Confirm Password" placeholder='Confirm Password' required/>
                     </div>
                     <button className="signup_btn" >
                         Signup
